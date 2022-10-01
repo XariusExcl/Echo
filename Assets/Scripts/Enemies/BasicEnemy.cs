@@ -74,8 +74,15 @@ public class BasicEnemy : RadarEnemy
         RaycastHit2D rightHit = Physics2D.Raycast(transform.position, rightRelative, 2f);
         // Debug.DrawRay(transform.position, rightRelative * 2f, Color.blue, 10f);
 
+        float _playerAngle = Vector2.SignedAngle(transform.right, player.transform.position - transform.position);
+
         switch(_aiMode) {
             case AiMode.Seek:
+                // Chose to "luckily" orient itself towards player (max 75 degrees so no sus u-turns)
+                float _angleBias = (Random.value < 0.3f) ? Mathf.Clamp(_playerAngle, -75f, 75f) : 0f; 
+
+                if (_angleBias == _playerAngle) { Debug.Log("Lucky!");}
+
                 float leftHitDistance = (leftHit.distance == 0f ) ? 2f : leftHit.distance;
                 float forwardHitDistance = (forwardHit.distance == 0f ) ? 2f : forwardHit.distance;
                 float rightHitDistance = (rightHit.distance == 0f ) ? 2f : rightHit.distance;
@@ -89,24 +96,24 @@ public class BasicEnemy : RadarEnemy
                         if (Mathf.Min(forwardHitDistance, leftHitDistance) < 1f)
                         {
                             // Wall is close, turn right harder
-                            nextPosition = TryNextTargetPosition(-90f, -35f);
+                            nextPosition = TryNextTargetPosition(-90f + _angleBias, -35f + _angleBias);
                         } else {
                             // Wall is near, turn right softly
-                            nextPosition = TryNextTargetPosition(-35f, 0f);
+                            nextPosition = TryNextTargetPosition(-35f + _angleBias, 0f + _angleBias);
                         }
                     } else {
                         // RightHit is smaller
                         if (Mathf.Min(forwardHitDistance, rightHitDistance) < 1f)
                         {
                             // Wall is close, turn left harder
-                            nextPosition = TryNextTargetPosition(-90f, 0f);
+                            nextPosition = TryNextTargetPosition(-90f + _angleBias, 0f + _angleBias);
                         } else {
                             // Wall is near, turn left softly
-                            nextPosition = TryNextTargetPosition(-35f, 0f);
+                            nextPosition = TryNextTargetPosition(-35f + _angleBias, 0f + _angleBias);
                         }
                     }
                 } else {
-                    nextPosition = TryNextTargetPosition(-45f, 45f);
+                    nextPosition = TryNextTargetPosition(-45f + _angleBias, 45f + _angleBias);
                 }
             break;
             case AiMode.Chase:
@@ -153,7 +160,7 @@ public class BasicEnemy : RadarEnemy
     {
         base.RevealItself();
         Instantiate(radarBlip, transform.position, transform.rotation);
-        Debug.Log("Ship found at " + vfAngle);
+        // Debug.Log("Ship found at " + vfAngle);
         lastRevealTime = Time.realtimeSinceStartup;
         // Sound Effect
     }

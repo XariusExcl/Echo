@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
-        Time.timeScale = 8f;
+        Time.timeScale = 1f;
     }
 
     float _TimeElapsed;
