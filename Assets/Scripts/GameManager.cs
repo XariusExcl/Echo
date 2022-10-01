@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public UIDriver uiDriver;
     public ViewFinderSwiper viewFinderSwiper;
     RadarEnemy[] radarEnemies;
 
@@ -14,13 +15,13 @@ public class GameManager : MonoBehaviour
         radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
     }
 
-    float m_TimeElapsed;
-    float m_loopTimeElapsed;
+    float _TimeElapsed;
+    float _loopTimeElapsed = 7f;
     void Update()
     {
-        m_TimeElapsed += Time.deltaTime;
-        m_loopTimeElapsed += Time.deltaTime;
-        if (m_loopTimeElapsed > 3)
+        _TimeElapsed += Time.deltaTime;
+        _loopTimeElapsed += Time.deltaTime;
+        if (_loopTimeElapsed > 10)
         {
             // Reset AlreadyRevealed de tt le monde
             foreach(RadarEnemy radarEnemy in radarEnemies)
@@ -29,8 +30,15 @@ public class GameManager : MonoBehaviour
             }
 
             viewFinderSwiper.Swipe();
-            m_loopTimeElapsed = 0f;
+            _loopTimeElapsed = 0f;
             Debug.Log("Swipe");
         }
+
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        uiDriver.TimeTillNextScan = 10 - _loopTimeElapsed;
     }
 }

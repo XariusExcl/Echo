@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ViewFinderSwiper : MonoBehaviour
 {
-    float m_ActualRot = 0f;
-    public float Rotation {get => m_ActualRot; private set { m_ActualRot = value;}}
+    float _rotation = 0f;
+    public float Rotation {get => _rotation; private set { _rotation = value;}}
 
     public void Swipe()
     {
@@ -14,12 +14,12 @@ public class ViewFinderSwiper : MonoBehaviour
     
     IEnumerator Co_Swipe()
     {
-        while(m_ActualRot != 360f)
+        while(_rotation != 360f)
         {
-            m_ActualRot += 5f;
-            transform.rotation = Quaternion.Euler(0f, 0f, -m_ActualRot);
+            _rotation += 5f;
+            transform.rotation = Quaternion.Euler(0f, 0f, -_rotation);
             yield return new WaitForEndOfFrame();
         }
-        m_ActualRot = 0f;
+        _rotation = 0f;
     }
 }

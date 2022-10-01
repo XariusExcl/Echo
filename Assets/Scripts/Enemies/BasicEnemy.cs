@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class BasicEnemy : RadarEnemy
 {
-    public SpriteRenderer spriteRenderer;
+    public GameObject radarBlip;
+    public GameObject nextPosGo;
+    GameObject _nextPosGo;
     public GameObject wave;
 
     new void Start()
     {
         base.Start();
-        spriteRenderer.enabled = false;
+        _nextPosGo = Instantiate(nextPosGo, nextPosition, Quaternion.identity);
     }
 
     void Update()
@@ -18,22 +20,36 @@ public class BasicEnemy : RadarEnemy
         if (!AlreadyRevealed)
         {
             // If swiper has passed enemy ship
-            Debug.Log(viewFinderSwiper.Rotation + " " + m_angle);
-            if (viewFinderSwiper.Rotation > m_angle)
+            if (viewFinderSwiper.Rotation > vfAngle)
             {
-                // reveal it
                 RevealItself();
+                CalculateNextPosition();
             }
         }
+
+        transform.position = Vector3.Lerp(lastPosition, nextPosition, (Time.realtimeSinceStartup - lastRevealTime) / 10f);
     }
+
+    void CalculateNextPosition()
+    {
+        lastPosition = transform.position;
+        nextPosition = transform.position += new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
+        _nextPosGo.transform.position = nextPosition; // + random ?
+    }
+
 
     new void RevealItself()
     {
         base.RevealItself();
-        spriteRenderer.enabled = true;
-        Debug.Log("Ship found at " + m_angle);
-        // Show sprite
+        Instantiate(radarBlip, transform.position, Quaternion.identity);
+        Debug.Log("Ship found at " + vfAngle);
+        lastRevealTime = Time.realtimeSinceStartup;
         // Spawn wave
         // Sound Effect
+    }
+
+    void Kill()
+    {
+        // Destroy itself and child
     }
 }

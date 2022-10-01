@@ -5,31 +5,37 @@ using UnityEngine;
 public class RadarEnemy : MonoBehaviour
 {
     protected ViewFinderSwiper viewFinderSwiper;
+    protected Vector3 lastPosition;
+    protected Vector3 nextPosition;
 
-    protected float m_angle;
-    bool m_alreadyRevealed = false;
-    public bool AlreadyRevealed {get => m_alreadyRevealed; set { m_alreadyRevealed = value;}}
+    protected float vfAngle;
+    protected float lastRevealTime;
+    
+    bool _alreadyRevealed = false;
+    float _spawnTime;
+    public bool AlreadyRevealed {get => _alreadyRevealed; set { _alreadyRevealed = value;}}
 
     protected void Start()
     {
         viewFinderSwiper = GameObject.FindWithTag("ViewFinderSwiper").GetComponent<ViewFinderSwiper>();
-        UpdatePosition(transform.position);
+        nextPosition = transform.position;
+        _spawnTime = Time.realtimeSinceStartup;
+        UpdatePosition();
     }
 
-    public void UpdatePosition(Vector3 position)
+    public void UpdatePosition()
     {
-        transform.position = position;
-        m_angle = Vector2.SignedAngle((Vector2)transform.position, Vector2.up);
+        transform.position = nextPosition;
+        vfAngle = Vector2.SignedAngle((Vector2)transform.position, Vector2.up);
         // Make angle go from -180->180 to 0->360
-        if (m_angle < 0f)
+        if (vfAngle < 0f)
         {
-            m_angle = 360f + m_angle;
+            vfAngle = 360f + vfAngle;
         }
-        Debug.Log(m_angle);
     } 
 
     protected void RevealItself()
     {
-        m_alreadyRevealed = true;
+        _alreadyRevealed = true;
     }
 }
