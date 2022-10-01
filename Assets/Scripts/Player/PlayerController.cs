@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         float distanceToNextPosition =
             Vector2.Distance(_nextPosition, new Vector2(transform.position.x, transform.position.y));
 
-        if (distanceToNextPosition > 0.001f)
+        if (distanceToNextPosition > 0.1f)
         {
             float _angleToTarget = Vector2.SignedAngle(transform.right, _nextPosition - (Vector2)transform.position);
             transform.rotation = Quaternion.Euler(
