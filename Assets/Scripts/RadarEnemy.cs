@@ -5,8 +5,8 @@ using UnityEngine;
 public class RadarEnemy : MonoBehaviour
 {
     protected ViewFinderSwiper viewFinderSwiper;
-    protected Vector3 lastPosition;
-    protected Vector3 nextPosition;
+    protected Vector2 lastPosition;
+    protected Vector2 nextPosition;
 
     protected float vfAngle;
     protected float lastRevealTime;
@@ -20,12 +20,11 @@ public class RadarEnemy : MonoBehaviour
         viewFinderSwiper = GameObject.FindWithTag("ViewFinderSwiper").GetComponent<ViewFinderSwiper>();
         nextPosition = transform.position;
         _spawnTime = Time.realtimeSinceStartup;
-        UpdatePosition();
     }
 
-    public void UpdatePosition()
+    public void Update()
     {
-        transform.position = nextPosition;
+        // Find angle to reveal when viewfinder swipes.
         vfAngle = Vector2.SignedAngle((Vector2)transform.position, Vector2.up);
         // Make angle go from -180->180 to 0->360
         if (vfAngle < 0f)
