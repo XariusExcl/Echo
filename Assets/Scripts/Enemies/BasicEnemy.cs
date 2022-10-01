@@ -7,6 +7,7 @@ public class BasicEnemy : RadarEnemy
     public GameObject radarBlip;
     public GameObject nextPosGo;
     public Collider2D fovTrigger;
+    public TorpedoLauncher TorpedoLauncher;
     GameObject _nextPosGo;
     float _speed = 0.002f;
     float _turningSpeed = 0.5f;
@@ -84,7 +85,6 @@ public class BasicEnemy : RadarEnemy
                 
             break;
             case AiMode.Chase:
-
             break;
         }
 
@@ -96,22 +96,23 @@ public class BasicEnemy : RadarEnemy
     new void RevealItself()
     {
         base.RevealItself();
-        Instantiate(radarBlip, transform.position, transform.rotation);
+        Instantiate(radarBlip, transform.position, transform.rotation); 
         Debug.Log("Ship found at " + vfAngle);
         lastRevealTime = Time.realtimeSinceStartup;
         // Sound Effect
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.tag == "Player")
+        Debug.Log("pouet");
+
+        if (col.gameObject.tag == "Player")
         {
-            // PlayerController pc = col.gameObject.GetComponent<PlayerController>();
             // if (!pc.IsDead)
-                Debug.Log(gameObject.name + " found Player! Chasing");
                 _aiMode = AiMode.Chase;
-            // else
-            //    _aiMode = AiMode.Seek;
+                TorpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, transform.right));
+                // else
+                //    _aiMode = AiMode.Seek;
         }
     }
 
