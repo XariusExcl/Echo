@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     float _turningSpeed = 0.5f;
     private float _angle;
     private Vector2 _nextPosition;
-
+    public TorpedoLauncher torpedoLauncher;
 
     void Update()
     {
@@ -35,8 +35,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if (distance <= zone.transform.localScale.x && Input.GetButtonDown("Fire1"))
-        {
+        { 
             _nextPosition = _mousePos;
+            torpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, _nextPosition - (Vector2)transform.position));
         }
 
         float distanceToNextPosition =
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
         {
             float _angleToTarget = Vector2.SignedAngle(transform.right, _nextPosition - (Vector2)transform.position);
             transform.rotation = Quaternion.Euler(
-                0f,
+                0f, 
                 0f,
                 transform.rotation.eulerAngles.z + Mathf.Sign(_angleToTarget) * _turningSpeed
             );

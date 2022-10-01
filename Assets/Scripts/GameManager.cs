@@ -24,8 +24,10 @@ public class GameManager : MonoBehaviour
         if (_loopTimeElapsed > 10)
         {
             // Reset AlreadyRevealed de tt le monde
+            radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
             foreach(RadarEnemy radarEnemy in radarEnemies)
             {
+                
                 radarEnemy.AlreadyRevealed = false;
             }
 
