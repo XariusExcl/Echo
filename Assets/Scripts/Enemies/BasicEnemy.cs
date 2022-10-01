@@ -8,8 +8,8 @@ public class BasicEnemy : RadarEnemy
     public GameObject nextPosGo;
     public Collider2D fovTrigger;
     GameObject _nextPosGo;
-    float _speed = 0.002f;
-    float _turningSpeed = 0.5f;
+    float _speed = 0.125f;
+    float _turningSpeed = 25f;
     GameObject player;
 
     new void Start()
@@ -39,11 +39,11 @@ public class BasicEnemy : RadarEnemy
         transform.rotation = Quaternion.Euler(
             0f,
             0f,
-            transform.rotation.eulerAngles.z + Mathf.Sign(_angleToTarget) * _turningSpeed
+            transform.rotation.eulerAngles.z + Mathf.Sign(_angleToTarget) * _turningSpeed * Time.deltaTime
         );
         
         // Move to target position (factor for when angle is big, <25° = 1, >90° = 0)
-        transform.position += _speed * (Mathf.Clamp(-0.015f * Mathf.Abs(_angleToTarget) + 1.38f, 0f, 1f)) * transform.right;
+        transform.position += _speed * (Mathf.Clamp(-0.015f * Mathf.Abs(_angleToTarget) + 1.38f, 0f, 1f)) * transform.right * Time.deltaTime;
         
         if (Vector2.SqrMagnitude(nextPosition - (Vector2)transform.position) < 0.02f)
         {
@@ -63,34 +63,90 @@ public class BasicEnemy : RadarEnemy
     {
         lastPosition = transform.position;
 
-        Vector3 leftRelative = Quaternion.AngleAxis(-35f, Vector3.forward) * transform.right;
+        Vector3 leftRelative = Quaternion.AngleAxis(35f, Vector3.forward) * transform.right;
         RaycastHit2D leftHit = Physics2D.Raycast(transform.position, leftRelative, 2f);
-        Debug.DrawRay(transform.position, leftRelative * 2f, Color.yellow, 10f);
+        // Debug.DrawRay(transform.position, leftRelative * 2f, Color.yellow, 10f);
 
         RaycastHit2D forwardHit = Physics2D.Raycast(transform.position, transform.right, 2f);
-        Debug.DrawRay(transform.position, transform.right * 2f, Color.red, 10f);
+        // Debug.DrawRay(transform.position, transform.right * 2f, Color.red, 10f);
 
-        Vector3 rightRelative = Quaternion.AngleAxis(35f, Vector3.forward) * transform.right;
+        Vector3 rightRelative = Quaternion.AngleAxis(-35f, Vector3.forward) * transform.right;
         RaycastHit2D rightHit = Physics2D.Raycast(transform.position, rightRelative, 2f);
-        Debug.DrawRay(transform.position, rightRelative * 2f, Color.blue, 10f);
-
-        
+        // Debug.DrawRay(transform.position, rightRelative * 2f, Color.blue, 10f);
 
         switch(_aiMode) {
             case AiMode.Seek:
-                Debug.Log("LeftHit: " + leftHit.distance);
-                Debug.Log("ForwardHit: " + forwardHit.distance);
-                Debug.Log("RightHit: " + rightHit.distance);
+                float leftHitDistance = (leftHit.distance == 0f ) ? 2f : leftHit.distance;
+                float forwardHitDistance = (forwardHit.distance == 0f ) ? 2f : forwardHit.distance;
+                float rightHitDistance = (rightHit.distance == 0f ) ? 2f : rightHit.distance;
                 
+                if (!(leftHitDistance == forwardHitDistance && forwardHitDistance == rightHitDistance))
+                {
+                    // One of the raycasts hit something
+                    if (leftHitDistance < rightHitDistance)
+                    {
+                        // LeftHit is smaller
+                        if (Mathf.Min(forwardHitDistance, leftHitDistance) < 1f)
+                        {
+                            // Wall is close, turn right harder
+                            nextPosition = TryNextTargetPosition(-90f, -35f);
+                        } else {
+                            // Wall is near, turn right softly
+                            nextPosition = TryNextTargetPosition(-35f, 0f);
+                        }
+                    } else {
+                        // RightHit is smaller
+                        if (Mathf.Min(forwardHitDistance, rightHitDistance) < 1f)
+                        {
+                            // Wall is close, turn left harder
+                            nextPosition = TryNextTargetPosition(-90f, 0f);
+                        } else {
+                            // Wall is near, turn left softly
+                            nextPosition = TryNextTargetPosition(-35f, 0f);
+                        }
+                    }
+                } else {
+                    nextPosition = TryNextTargetPosition(-45f, 45f);
+                }
             break;
             case AiMode.Chase:
 
             break;
         }
 
-        nextPosition = lastPosition + new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
         // Show expected pos at next scan
         _nextPosGo.transform.position = nextPosition; // + random ?
+    }
+
+    Vector2 TryNextTargetPosition(float minAzimuth, float maxAzimuth)
+    {
+        Vector3 candidate;
+        int iterationCount = 0;
+        do
+        {
+            candidate = transform.position + Quaternion.AngleAxis(Random.Range(minAzimuth, maxAzimuth), Vector3.forward) * transform.right * (10f * _speed);
+            iterationCount++;
+        } while (!ValidateNextPosition(candidate) && iterationCount < 10);
+        if (iterationCount == 10)
+        {
+            Debug.LogError("BasicEnemy: Iteration Count for TryNextTargetPosition reached 10 without a suitable target position. Seached between " + minAzimuth + " and " + maxAzimuth + ".");
+            candidate = TryNextTargetPosition(minAzimuth - 30f, maxAzimuth + 30f);
+        }
+
+        return candidate;
+    }
+
+    bool ValidateNextPosition(Vector3 nextPositionCandidate)
+    {
+        RaycastHit2D _hit = Physics2D.Raycast(
+            transform.position,
+            (nextPositionCandidate * 1.1f) - transform.position
+        );
+        
+        if (_hit.distance < Vector2.Distance(nextPositionCandidate, transform.position))
+            return false;
+
+        return true;
     }
 
     new void RevealItself()

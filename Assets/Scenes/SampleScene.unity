@@ -1088,84 +1088,6 @@ GameObject:
 --- !u!120 &1309665824
 LineRenderer:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586657, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586658, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: nextPosGo
-      value: 
-      objectReference: {fileID: 5784602364887429222, guid: b8d8faaba3335964cbe7f90a67d8dadb, type: 3}
-    - target: {fileID: 394825184029586659, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_Name
-      value: Enemy (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 394825184029586659, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4032668449575589042, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4915290196686193845, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_Name
-      value: DebugSprite
-      objectReference: {fileID: 0}
-    - target: {fileID: 4915290196686193845, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6739559405721097914, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1701,6 +1623,14 @@ PrefabInstance:
     - target: {fileID: 394825184029586659, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 394825184029586659, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997654306274433148, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4032668449575589042, guid: 97b0f332cdabe9046a59618755acb29e, type: 3}
       propertyPath: m_IsActive

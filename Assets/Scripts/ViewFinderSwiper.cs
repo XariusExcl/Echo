@@ -9,17 +9,19 @@ public class ViewFinderSwiper : MonoBehaviour
 
     public void Swipe()
     {
+        _rotation = 0f;
         StartCoroutine(Co_Swipe());
     }
     
     IEnumerator Co_Swipe()
     {
-        while(_rotation != 360f)
+        while(_rotation < 360f)
         {
-            _rotation += 5f;
             transform.rotation = Quaternion.Euler(0f, 0f, -_rotation);
             yield return new WaitForEndOfFrame();
+            _rotation += 360f * Time.deltaTime;
         }
-        _rotation = 0f;
+        _rotation = 360f;
+        transform.rotation = Quaternion.identity;
     }
 }
