@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 394825184029586657}
   - component: {fileID: 394825184029586658}
+  - component: {fileID: 2997654306274433148}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -47,8 +48,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radarBlip: {fileID: 7973716460533322903, guid: 3e32c35f759dc8e44bc9fb11e4da1edc, type: 3}
-  nextPosGo: {fileID: 0}
-  wave: {fileID: 0}
+  nextPosGo: {fileID: 5784602364887429222, guid: b8d8faaba3335964cbe7f90a67d8dadb, type: 3}
+  fovTrigger: {fileID: 2997654306274433148}
+--- !u!60 &2997654306274433148
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394825184029586659}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0}
+      - {x: 1.7, y: -0.4}
+      - {x: 1.7, y: 0.4}
 --- !u!1 &4915290196686193845
 GameObject:
   m_ObjectHideFlags: 0
