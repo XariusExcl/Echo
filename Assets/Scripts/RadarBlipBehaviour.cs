@@ -5,6 +5,7 @@ using UnityEngine;
 public class RadarBlipBehaviour : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+    public Color color;
  
     float _spawnTime;
 
@@ -20,7 +21,6 @@ public class RadarBlipBehaviour : MonoBehaviour
     {
         // Value from 1f -> 0 representing time since last blip
         float lifespan = 1f - ((Time.realtimeSinceStartup - _spawnTime) / 10f);
-        spriteRenderer.color = new Color(1f, 1f, 1f, lifespan);
 
         if (lifespan < 0f)
         {
