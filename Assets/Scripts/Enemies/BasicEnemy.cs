@@ -7,7 +7,8 @@ public class BasicEnemy : RadarEnemy
     public GameObject radarBlip;
     public GameObject nextPosGo;
     GameObject _nextPosGo;
-    public GameObject wave;
+    float _speed = 0.002f;
+    float _turningSpeed = 0.5f;
 
     new void Start()
     {
@@ -19,31 +20,39 @@ public class BasicEnemy : RadarEnemy
     void Update()
     {
         base.Update();
-        
+
         if (!AlreadyRevealed)
         {
             // If swiper has passed enemy ship
             if (viewFinderSwiper.Rotation > vfAngle)
             {
                 RevealItself();
-                CalculateNextPosition();
+                /// CalculateNextPosition();
             }
         }
 
-        transform.position = Vector2.Lerp(lastPosition, nextPosition, (Time.realtimeSinceStartup - lastRevealTime) / 10f);
+        
+        // Angle to target position
+        float _angleToTarget = Vector2.SignedAngle(transform.right, nextPosition - (Vector2)transform.position);
+        transform.rotation = Quaternion.Euler(
+            0f,
+            0f,
+            transform.rotation.eulerAngles.z + Mathf.Sign(_angleToTarget) * _turningSpeed
+        );
+        
+        // Move to target position (slower factor for when angle is big, <25° = 1, >90° = 0)
+        transform.position += _speed * (Mathf.Clamp(-0.015f * Mathf.Abs(_angleToTarget) + 1.38f, 0f, 1f)) * transform.right;
+        
+        if (Vector2.SqrMagnitude(nextPosition - (Vector2)transform.position) < 0.05f)
+        {
+            CalculateNextPosition();
+        }
     }
 
     void CalculateNextPosition()
     {
         lastPosition = transform.position;
         nextPosition = lastPosition + new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-
-        // Calculate angle to face next position
-        float facingAngle = Vector2.Angle(Vector2.right, nextPosition - lastPosition);
-        Debug.Log(facingAngle);
-        Quaternion facingAngleQuat = Quaternion.Euler(0f, 0f, facingAngle);
-        transform.rotation = facingAngleQuat;
-        
         // Show expected pos at next scan
         _nextPosGo.transform.position = nextPosition; // + random ?
     }
