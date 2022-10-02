@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 _nextPosition;
     public TorpedoLauncher torpedoLauncher;
     public ToggleGroup playerActions;
+    bool _isDead;
+    public bool IsDead {get => _isDead; private set { _isDead = value;}}
 
     void Update()
     {
