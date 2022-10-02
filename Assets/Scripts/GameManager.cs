@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
             // User actions visibiliy
             
             playerActions.gameObject.SetActive(true);
+            playerActions.SetAllTogglesOff();
+            
             Debug.Log("Swipe");
         }
 
