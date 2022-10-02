@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public ToggleGroup playerActions;
     bool _isDead;
     public bool isMuted;
+    public Toggle moveToggle;
+    public Toggle muteToggle;
     public bool IsDead {get => _isDead; private set { _isDead = value;}}
     public Vector2 Velocity {get => rigidbody2D.velocity;}
     public AudioSource moveSfx;
@@ -73,6 +75,8 @@ public class PlayerController : MonoBehaviour
         {
             isMuted = true;
             playerActions.gameObject.SetActive(false);
+            muteToggle.isOn = false;
+            moveToggle.isOn = true;
         }
 
         // move submarine to pointer

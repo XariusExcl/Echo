@@ -6,17 +6,20 @@ using UnityEngine.UI;
 
 public class PlayerActions : MonoBehaviour
 {
-    public Toggle playerAction;
+    public Toggle[] playerAction;
     public AudioSource clickSfx;
 
     private void Update()
     {
-        playerAction.onValueChanged.AddListener(delegate
+        foreach (Toggle toggle in playerAction)
         {
-            if(playerAction.isOn)
+            toggle.onValueChanged.AddListener(delegate
             {
-                clickSfx.Play();
-            }
-        });
+                if (toggle.isOn)
+                {
+                    clickSfx.Play();
+                }
+            });
+        }
     }
 }
