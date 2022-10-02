@@ -7,6 +7,7 @@ public class BasicEnemy : RadarEnemy
     public GameObject radarBlip;
     public GameObject nextPosGo;
     public Collider2D fovTrigger;
+    public TorpedoLauncher TorpedoLauncher;
     GameObject _nextPosGo;
     float _speed = 0.125f;
     float _turningSpeed = 25f;
@@ -117,7 +118,6 @@ public class BasicEnemy : RadarEnemy
                 }
             break;
             case AiMode.Chase:
-
             break;
         }
 
@@ -165,16 +165,16 @@ public class BasicEnemy : RadarEnemy
         // Sound Effect
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Player")
+        if (col.gameObject.tag == "Player")
         {
-            // PlayerController pc = col.gameObject.GetComponent<PlayerController>();
             // if (!pc.IsDead)
                 Debug.Log(gameObject.name + " found Player! Chasing");
                 _aiMode = AiMode.Chase;
-            // else
-            //    _aiMode = AiMode.Seek;
+                TorpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, transform.right));
+                // else
+                //    _aiMode = AiMode.Seek;
         }
     }
 

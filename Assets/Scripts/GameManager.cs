@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public UIDriver uiDriver;
     public ViewFinderSwiper viewFinderSwiper;
+    public ToggleGroup playerActions;
     RadarEnemy[] radarEnemies;
 
     void Start()
@@ -25,13 +27,19 @@ public class GameManager : MonoBehaviour
         if (_loopTimeElapsed > 10)
         {
             // Reset AlreadyRevealed de tt le monde
+            radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
             foreach(RadarEnemy radarEnemy in radarEnemies)
             {
+                
                 radarEnemy.AlreadyRevealed = false;
             }
 
             viewFinderSwiper.Swipe();
             _loopTimeElapsed = 0f;
+            
+            // User actions visibiliy
+            
+            playerActions.gameObject.SetActive(true);
             Debug.Log("Swipe");
         }
 
