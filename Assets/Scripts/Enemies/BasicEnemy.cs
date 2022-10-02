@@ -16,13 +16,16 @@ public class BasicEnemy : RadarEnemy
     public float _speed = 0.125f;
     public float _turningSpeed = 25f;
     public float _seekChance = 1f;
+    bool _isDead = false;
 
+    GameManager _gameManager;
 
     new void Start()
     {
         base.Start();
         _nextPosGo = Instantiate(nextPosGo, nextPosition, Quaternion.identity);
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         CalculateNextPosition();
         _nextPosGo.transform.position = new Vector3(-12f, -12f, 0f); // Hide next pos marker until first reveal
     }
@@ -31,7 +34,7 @@ public class BasicEnemy : RadarEnemy
     {
         base.Update();
 
-        if (!AlreadyRevealed)
+        if (!AlreadyRevealed && !_isDead)
         {
             // If swiper has passed enemy ship
             if (viewFinderSwiper.Rotation > vfAngle)
@@ -112,9 +115,7 @@ public class BasicEnemy : RadarEnemy
         switch(_aiMode) {
             case AiMode.Seek:
                 // Chose to "luckily" orient itself towards player (max 75 degrees so no sus u-turns)
-                float _angleBias = (Random.value < _seekChance) ? Mathf.Clamp(_playerAngle, -75f, 75f) : 0f; 
-
-                if (_angleBias == _playerAngle) { Debug.Log("Lucky!");}
+                float _angleBias = (Random.value < _seekChance) ? Mathf.Clamp(_playerAngle, -75f, 75f) : 0f;
 
                 float leftHitDistance = (leftHit.distance == 0f ) ? 2f : leftHit.distance;
                 float forwardHitDistance = (forwardHit.distance == 0f ) ? 2f : forwardHit.distance;
@@ -194,11 +195,14 @@ public class BasicEnemy : RadarEnemy
 
     new void RevealItself()
     {
-        base.RevealItself();
-        Instantiate(radarBlip, transform.position, transform.rotation);
-        // Debug.Log("Ship found at " + vfAngle);
-        lastRevealTime = Time.realtimeSinceStartup;
-        // Sound Effect
+        if (!_isDead)
+        {
+            base.RevealItself();
+            Instantiate(radarBlip, transform.position, transform.rotation);
+            // Debug.Log("Ship found at " + vfAngle);
+            lastRevealTime = Time.realtimeSinceStartup;
+            // Sound Effect
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -225,19 +229,16 @@ public class BasicEnemy : RadarEnemy
             {
                 Destroy(selfCol);
             }
+            _isDead = true;
+            _gameManager.EnemyKilled();
             DieAnimation();
         }
     }
 
     public void DieAnimation()
     {
-        
-    }
-
-    public void Die()
-    {
-        // Destroy itself and child
-        Destroy(nextPosGo);
-        Destroy(this.gameObject);
+        // Show itself or whatever
+        Destroy(_nextPosGo, 2.9f);
+        Destroy(this.gameObject, 3.0f);
     }
 }

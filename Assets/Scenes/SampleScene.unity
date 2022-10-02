@@ -1091,7 +1091,7 @@ MonoBehaviour:
   uiDriver: {fileID: 101447339}
   viewFinderSwiper: {fileID: 889909405}
   playerActions: {fileID: 352145385}
-  enemySpawner: {fileID: 0}
+  enemySpawner: {fileID: 1048254919}
   timeScale: 1
   loopTime: 10
   startTimerAt: 7

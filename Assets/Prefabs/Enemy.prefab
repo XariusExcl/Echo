@@ -55,7 +55,7 @@ MonoBehaviour:
   torpedoLauncher: {fileID: 1364623461193615489}
   _speed: 0.125
   _turningSpeed: 25
-  _seekChance: 1
+  _seekChance: 0.5
 --- !u!60 &2997654306274433148
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -126,7 +126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5231062160348695803
 Transform:
   m_ObjectHideFlags: 0
@@ -205,12 +205,12 @@ GameObject:
   - component: {fileID: 1209271383719112163}
   - component: {fileID: 9165982663167166001}
   m_Layer: 0
-  m_Name: VisionCone
+  m_Name: DebugVisionCone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1209271383719112163
 Transform:
   m_ObjectHideFlags: 0

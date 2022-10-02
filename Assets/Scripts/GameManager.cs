@@ -29,17 +29,29 @@ public class GameManager : MonoBehaviour
 
     float _timeElapsed;
     float _loopTimeElapsed;
+    float _spawnOdds;
     void Update()
     {
         _timeElapsed += Time.deltaTime;
         _loopTimeElapsed += Time.deltaTime;
         if (_loopTimeElapsed > loopTime)
         {
-            if (Random.value < 0.3f)
-                enemySpawner.SpawnEnemy();
-                
-            // Reset AlreadyRevealed de tt le monde
             radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
+            
+            // Calculate odds to spawn a new enemy 
+            if (radarEnemies.Length == 0)
+                _spawnOdds = 1.0f;
+            else 
+                _spawnOdds = 0.3f + (_timeElapsed / 220f); // at 2:30 of playtime, spawn odds are 100%.
+
+            // Spawn (if odds >100%, spawns an enemy and roll odds on remaining %).
+            for(int i = 0; i < Mathf.FloorToInt(_spawnOdds); i++)
+                enemySpawner.SpawnEnemy();
+
+            if (Random.value < _spawnOdds % 1)
+                enemySpawner.SpawnEnemy();
+
+            // Reset AlreadyRevealed for next swipe
             foreach(RadarEnemy radarEnemy in radarEnemies)
             {
                 radarEnemy.AlreadyRevealed = false;
@@ -50,11 +62,16 @@ public class GameManager : MonoBehaviour
             
             playerActions.GetComponent<PlayerActions>().EnableInteractivity();
     
-            Debug.Log("Swipe");
+            Debug.Log($"Swipe, current odds: {_spawnOdds}");
         }
 
 
         UpdateUI();
+    }
+
+    public void EnemyKilled()
+    {
+        Debug.Log("Enemy Killed!");
     }
 
     public void GameOver()

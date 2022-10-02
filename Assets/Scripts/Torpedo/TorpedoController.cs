@@ -21,7 +21,7 @@ public class TorpedoController : MonoBehaviour
 
     void Update()
     {
-        if(!_armed && Time.realtimeSinceStartup - _spawnTime > 3f)
+        if(!_armed && Time.realtimeSinceStartup - _spawnTime > 0.1f) // FIXME 
         {
             Debug.Log("Torpedo armed.");
             collider2D.enabled = _armed = true;
@@ -33,7 +33,8 @@ public class TorpedoController : MonoBehaviour
         Debug.Log("Torpedo collision");
         Destroy(GetComponent<Collider2D>());
         rigidbody2D.velocity = new Vector2(0f, 0f);
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        GameObject newExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(newExplosion, 2.9f);
         Destroy(this.gameObject, 3f);
     }
 }
