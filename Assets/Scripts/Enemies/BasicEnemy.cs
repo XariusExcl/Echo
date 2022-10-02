@@ -9,15 +9,20 @@ public class BasicEnemy : RadarEnemy
     public Collider2D fovTrigger;
     public TorpedoLauncher torpedoLauncher;
     GameObject _nextPosGo;
-    float _speed = 0.125f;
-    float _turningSpeed = 25f;
-    GameObject player;
+    PlayerController player;
+    float _lastPlayerSeenTime;
+    float _lastTorpedoSentTime;
+    [Header("DEBUG ZONE")]
+    public float _speed = 0.125f;
+    public float _turningSpeed = 25f;
+    public float _seekChance = 1f;
+
 
     new void Start()
     {
         base.Start();
         _nextPosGo = Instantiate(nextPosGo, nextPosition, Quaternion.identity);
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         CalculateNextPosition();
     }
 
@@ -51,6 +56,22 @@ public class BasicEnemy : RadarEnemy
             // Move target position forward till next blip, our distance estimate was too short
             nextPosition += 0.1f * (Vector2)transform.right;
         }
+
+        if (_aiMode == AiMode.Chase)
+        {
+            if (Time.realtimeSinceStartup - _lastTorpedoSentTime > 10f)
+            {
+                torpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, player.transform.position - transform.position));
+                _lastTorpedoSentTime = Time.realtimeSinceStartup;
+            }
+            
+            // Lose the player after 20 seconds not seen
+            if (Time.realtimeSinceStartup - _lastPlayerSeenTime > 20f)
+            {
+                _aiMode = AiMode.Seek;
+            }
+        }
+
     }
 
     enum AiMode {
@@ -80,7 +101,7 @@ public class BasicEnemy : RadarEnemy
         switch(_aiMode) {
             case AiMode.Seek:
                 // Chose to "luckily" orient itself towards player (max 75 degrees so no sus u-turns)
-                float _angleBias = (Random.value < 1f) ? Mathf.Clamp(_playerAngle, -75f, 75f) : 0f; 
+                float _angleBias = (Random.value < _seekChance) ? Mathf.Clamp(_playerAngle, -75f, 75f) : 0f; 
 
                 if (_angleBias == _playerAngle) { Debug.Log("Lucky!");}
 
@@ -118,6 +139,7 @@ public class BasicEnemy : RadarEnemy
                 }
             break;
             case AiMode.Chase:
+                nextPosition = TryNextTargetPosition(-5f + _playerAngle, 5f + _playerAngle);
             break;
         }
 
@@ -138,7 +160,7 @@ public class BasicEnemy : RadarEnemy
         {
             Debug.LogError("BasicEnemy: Iteration Count for TryNextTargetPosition reached 10 without a suitable target position. Seached between " + minAzimuth + " and " + maxAzimuth + ".");
             if (!(-minAzimuth == maxAzimuth && maxAzimuth == 180f))
-                candidate = TryNextTargetPosition(minAzimuth - 30f, maxAzimuth + 30f);
+                candidate = TryNextTargetPosition(Mathf.Clamp(minAzimuth - 30f, -180f, 180f), Mathf.Clamp(maxAzimuth + 30f, -180f, 180f));
             else
                 Debug.LogError("BasicEnemy: Something went terribly wrong!");
         }
@@ -172,12 +194,14 @@ public class BasicEnemy : RadarEnemy
     {
         if (col.gameObject.tag == "Player")
         {
-            // if (!pc.IsDead)
+            if (!player.IsDead)
+            {
                 Debug.Log(gameObject.name + " found Player! Chasing");
+                _lastPlayerSeenTime = Time.realtimeSinceStartup;
                 _aiMode = AiMode.Chase;
-                torpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, transform.right));
-                // else
-                //    _aiMode = AiMode.Seek;
+            } else {
+                _aiMode = AiMode.Seek;
+            }
         }
     }
 
