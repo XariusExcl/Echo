@@ -9,6 +9,7 @@ public class EnemyTorpedoController : RadarEnemy
     new void Start()
     {
         base.Start();
+        // AlreadyRevealed = true;
     }
     
     // Update is called once per frame
@@ -26,6 +27,7 @@ public class EnemyTorpedoController : RadarEnemy
     
     new void RevealItself()
     {
+        Debug.Log("Torpedo Revealed");
         base.RevealItself();
         Instantiate(radarBlip, transform.position, transform.rotation);
         lastRevealTime = Time.realtimeSinceStartup;
