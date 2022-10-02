@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public bool isMuted;
     public bool IsDead {get => _isDead; private set { _isDead = value;}}
     public Vector2 Velocity {get => rigidbody2D.velocity;}
+    public AudioSource moveSfx;
 
     void Start()
     {
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         if (getActiveToggle() == "Move" && distance <= zone.transform.localScale.x && Input.GetButtonDown("Fire1") &&
             !EventSystem.current.IsPointerOverGameObject())
         {
+            moveSfx.Play();
             _nextPosition = _mousePos;
             playerActions.gameObject.SetActive(false);
         }

@@ -5,11 +5,13 @@ using UnityEngine;
 public class ViewFinderSwiper : MonoBehaviour
 {
     float _rotation = 0f;
+    public AudioSource scanSfx; 
     public float Rotation {get => _rotation; private set { _rotation = value;}}
 
     public void Swipe()
     {
         _rotation = 0f;
+        scanSfx.Play();
         StartCoroutine(Co_Swipe());
     }
     
