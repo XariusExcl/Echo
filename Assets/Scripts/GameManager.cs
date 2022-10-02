@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
+    public void GameOver()
+    {
+        Debug.Log("GameManager: Game over");
+    }
+
     void UpdateUI()
     {
         uiDriver.TimeTillNextScan = loopTime - _loopTimeElapsed;
