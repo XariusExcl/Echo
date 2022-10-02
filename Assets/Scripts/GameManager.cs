@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public UIDriver uiDriver;
     public ViewFinderSwiper viewFinderSwiper;
-    public ToggleGroup playerActions;
+    public GameObject playerActions;
     RadarEnemy[] radarEnemies;
 
     [Header("DEBUG ZONE")]
@@ -42,9 +42,7 @@ public class GameManager : MonoBehaviour
             viewFinderSwiper.Swipe();
             _loopTimeElapsed = 0f;
             
-            // User actions visibiliy
-            
-            playerActions.gameObject.SetActive(true);
+            playerActions.GetComponent<PlayerActions>().EnableInteractivity();
     
             Debug.Log("Swipe");
         }

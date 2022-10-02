@@ -20,8 +20,6 @@ public class PlayerController : MonoBehaviour
     public ToggleGroup playerActions;
     bool _isDead;
     public bool isMuted;
-    public Toggle moveToggle;
-    public Toggle muteToggle;
     public bool IsDead {get => _isDead; private set { _isDead = value;}}
     public Vector2 Velocity {get => rigidbody2D.velocity;}
     GameManager _gameManager;
@@ -70,16 +68,15 @@ public class PlayerController : MonoBehaviour
         {
             moveSfx.Play();
             _nextPosition = _mousePos;
-            playerActions.gameObject.SetActive(false);
+            playerActions.GetComponent<PlayerActions>().DisableInteractivity();
         }
 
         if (getActiveToggle() == "Mute")
-        {
-            isMuted = true;
-            playerActions.gameObject.SetActive(false);
-            muteToggle.isOn = false;
-            moveToggle.isOn = true;
-        }
+         {
+             isMuted = true;
+             playerActions.GetComponent<PlayerActions>().DisableInteractivity();
+             playerActions.GetComponent<PlayerActions>().ResetDefault();
+         }
 
         // move submarine to pointer
         
@@ -104,13 +101,13 @@ public class PlayerController : MonoBehaviour
         if (getActiveToggle() == "Shoot"  && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
         {
             torpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, _mousePos - (Vector2)transform.position));
-            playerActions.gameObject.SetActive(false);
+            playerActions.GetComponent<PlayerActions>().DisableInteractivity();
         }
     } 
     
     public string getActiveToggle()
     {
-        if (playerActions.gameObject.activeSelf)
+        if (!playerActions.GetComponent<PlayerActions>().isDisabled)
         {
             return playerActions.ActiveToggles().First().name;
         }
