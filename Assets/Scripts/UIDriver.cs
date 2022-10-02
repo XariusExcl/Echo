@@ -13,6 +13,7 @@ public class UIDriver : MonoBehaviour
     public PlayerController PlayerController;
     public TMP_Text timeTillNextScanNumberText;
     public GameObject speedArrow;
+    public GameObject redOverlay;
 
     void Update()
     {
@@ -23,17 +24,13 @@ public class UIDriver : MonoBehaviour
 
     public void TurnAlarmOn()
     {
-        // TODO
-        Debug.LogWarning("Turn Alarm on!!!! we gon die!!!!");
-
+        redOverlay.SetActive(true);
         _isAlarmOn = true;
     }
 
     public void TurnAlarmOff()
     {
-        // TODO
-        Debug.LogWarning("Turn Alarm off :)");
-
+        redOverlay.SetActive(false);
         _isAlarmOn = false;
     }
 }
