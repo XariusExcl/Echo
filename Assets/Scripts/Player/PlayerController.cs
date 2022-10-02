@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
 {
     public SpriteRenderer zone;
     public LineRenderer line;
-    float _speed = 0.002f;
-    float _turningSpeed = 0.5f;
+    float _speed = 0.125f;
+    float _turningSpeed = 25f;
     private float _angle;
     private Vector2 _nextPosition;
     public TorpedoLauncher torpedoLauncher;
@@ -66,9 +66,9 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(
                 0f, 
                 0f,
-                transform.rotation.eulerAngles.z + Mathf.Sign(_angleToTarget) * _turningSpeed
+                transform.rotation.eulerAngles.z + Mathf.Sign(_angleToTarget) * _turningSpeed * Time.deltaTime
             );
-            transform.position += _speed * (Mathf.Clamp(-0.015f * Mathf.Abs(_angleToTarget) + 1.38f, 0f, 1f)) * transform.right;
+            transform.position += _speed * (Mathf.Clamp(-0.015f * Mathf.Abs(_angleToTarget) + 1.38f, 0f, 1f)) * transform.right * Time.deltaTime;;
         }
         
         // If pointer is outside zone - shoot torpedo

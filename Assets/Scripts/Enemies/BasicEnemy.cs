@@ -181,7 +181,20 @@ public class BasicEnemy : RadarEnemy
         }
     }
 
-    void Kill()
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "FriendlyTorpedo")
+        {
+            DieAnimation();
+        }
+    }
+
+    public void DieAnimation()
+    {
+        
+    }
+
+    public void Die()
     {
         // Destroy itself and child
         Destroy(nextPosGo);
