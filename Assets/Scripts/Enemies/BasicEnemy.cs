@@ -89,20 +89,21 @@ public class BasicEnemy : RadarEnemy
     }
 
     AiMode _aiMode = AiMode.Seek;
+    int _wallLayerMask = 1; // 
 
     void CalculateNextPosition()
     {
         lastPosition = transform.position;
 
         Vector3 leftRelative = Quaternion.AngleAxis(35f, Vector3.forward) * transform.right;
-        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, leftRelative, 2f);
+        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, leftRelative, 2f, _wallLayerMask);
         // Debug.DrawRay(transform.position, leftRelative * 2f, Color.yellow, 10f);
 
-        RaycastHit2D forwardHit = Physics2D.Raycast(transform.position, transform.right, 2f);
+        RaycastHit2D forwardHit = Physics2D.Raycast(transform.position, transform.right, 2f, _wallLayerMask);
         // Debug.DrawRay(transform.position, transform.right * 2f, Color.red, 10f);
 
         Vector3 rightRelative = Quaternion.AngleAxis(-35f, Vector3.forward) * transform.right;
-        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, rightRelative, 2f);
+        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, rightRelative, 2f, _wallLayerMask);
         // Debug.DrawRay(transform.position, rightRelative * 2f, Color.blue, 10f);
 
         float _playerAngle = Vector2.SignedAngle(transform.right, player.transform.position - transform.position);
@@ -218,6 +219,11 @@ public class BasicEnemy : RadarEnemy
     {
         if (col.gameObject.tag == "FriendlyTorpedo")
         {
+            Debug.Log("Basic Enemy ouchie");
+            foreach(Collider2D selfCol in GetComponents<Collider2D>())
+            {
+                Destroy(selfCol);
+            }
             DieAnimation();
         }
     }

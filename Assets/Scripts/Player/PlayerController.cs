@@ -24,11 +24,13 @@ public class PlayerController : MonoBehaviour
     public Toggle muteToggle;
     public bool IsDead {get => _isDead; private set { _isDead = value;}}
     public Vector2 Velocity {get => rigidbody2D.velocity;}
+    GameManager _gameManager;
     public AudioSource moveSfx;
 
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        _gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     void Update()
@@ -113,5 +115,25 @@ public class PlayerController : MonoBehaviour
             return playerActions.ActiveToggles().First().name;
         }
         return "";
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "EnemyTorpedo")
+        {
+            Debug.Log("Player ouchie");
+            Destroy(GetComponent<Collider2D>());
+            DieAnimation();
+        }
+    }
+
+    public void DieAnimation()
+    {
+        
+    }
+
+    public void Die()
+    {
+        Destroy(this.gameObject);
     }
 } 
