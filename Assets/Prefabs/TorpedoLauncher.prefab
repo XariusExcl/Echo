@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8220569599026932036}
-  - component: {fileID: 250459998698466035}
+  - component: {fileID: 3256211546023999327}
   m_Layer: 0
   m_Name: TorpedoLauncher
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &250459998698466035
+--- !u!114 &3256211546023999327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8d01cdabe8ea447a8bda5bf16ed651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torpedo: {fileID: 0}
+  torpedo: {fileID: 4931954863852284026, guid: b3b60a084c6d0f04383fe09a14eccbbe, type: 3}

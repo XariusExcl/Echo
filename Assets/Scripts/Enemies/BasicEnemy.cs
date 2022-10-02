@@ -7,7 +7,7 @@ public class BasicEnemy : RadarEnemy
     public GameObject radarBlip;
     public GameObject nextPosGo;
     public Collider2D fovTrigger;
-    public TorpedoLauncher TorpedoLauncher;
+    public TorpedoLauncher torpedoLauncher;
     GameObject _nextPosGo;
     float _speed = 0.125f;
     float _turningSpeed = 25f;
@@ -80,7 +80,7 @@ public class BasicEnemy : RadarEnemy
         switch(_aiMode) {
             case AiMode.Seek:
                 // Chose to "luckily" orient itself towards player (max 75 degrees so no sus u-turns)
-                float _angleBias = (Random.value < 0.3f) ? Mathf.Clamp(_playerAngle, -75f, 75f) : 0f; 
+                float _angleBias = (Random.value < 1f) ? Mathf.Clamp(_playerAngle, -75f, 75f) : 0f; 
 
                 if (_angleBias == _playerAngle) { Debug.Log("Lucky!");}
 
@@ -137,7 +137,10 @@ public class BasicEnemy : RadarEnemy
         if (iterationCount == 10)
         {
             Debug.LogError("BasicEnemy: Iteration Count for TryNextTargetPosition reached 10 without a suitable target position. Seached between " + minAzimuth + " and " + maxAzimuth + ".");
-            candidate = TryNextTargetPosition(minAzimuth - 30f, maxAzimuth + 30f);
+            if (!(-minAzimuth == maxAzimuth && maxAzimuth == 180f))
+                candidate = TryNextTargetPosition(minAzimuth - 30f, maxAzimuth + 30f);
+            else
+                Debug.LogError("BasicEnemy: Something went terribly wrong!");
         }
 
         return candidate;
@@ -172,7 +175,7 @@ public class BasicEnemy : RadarEnemy
             // if (!pc.IsDead)
                 Debug.Log(gameObject.name + " found Player! Chasing");
                 _aiMode = AiMode.Chase;
-                TorpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, transform.right));
+                torpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, transform.right));
                 // else
                 //    _aiMode = AiMode.Seek;
         }

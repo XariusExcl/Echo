@@ -12,7 +12,7 @@ public class EnemyTorpedoController : RadarEnemy
     }
     
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
         base.Update();
         if (!AlreadyRevealed)
