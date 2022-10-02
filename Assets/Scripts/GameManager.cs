@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     public UIDriver uiDriver;
     public ViewFinderSwiper viewFinderSwiper;
     public GameObject playerActions;
+    public EnemySpawner enemySpawner;
     RadarEnemy[] radarEnemies;
+    CameraController cameraController;
 
     [Header("DEBUG ZONE")]
     public float timeScale = 1f;
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
         radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
         Time.timeScale = timeScale;
         _loopTimeElapsed = startTimerAt;
+        cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
     }
 
     float _timeElapsed;
@@ -32,6 +35,9 @@ public class GameManager : MonoBehaviour
         _loopTimeElapsed += Time.deltaTime;
         if (_loopTimeElapsed > loopTime)
         {
+            if (Random.value < 0.3f)
+                enemySpawner.SpawnEnemy();
+                
             // Reset AlreadyRevealed de tt le monde
             radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
             foreach(RadarEnemy radarEnemy in radarEnemies)
@@ -47,11 +53,13 @@ public class GameManager : MonoBehaviour
             Debug.Log("Swipe");
         }
 
+
         UpdateUI();
     }
 
     public void GameOver()
     {
+        StartCoroutine(cameraController.CameraShake(0.5f));
         Debug.Log("GameManager: Game over");
     }
 

@@ -6,15 +6,34 @@ public class TorpedoController : MonoBehaviour
 {
     public float speed = 0.3125f;
     new Rigidbody2D rigidbody2D;
+    new Collider2D collider2D;
+    public GameObject explosion;
+    float _spawnTime;
+    bool _armed = false;
 
     void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();   
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        collider2D = GetComponent<Collider2D>();
         rigidbody2D.velocity = transform.right * speed;
+        _spawnTime = Time.realtimeSinceStartup;
+    }
+
+    void Update()
+    {
+        if(!_armed && Time.realtimeSinceStartup - _spawnTime > 3f)
+        {
+            Debug.Log("Torpedo armed.");
+            collider2D.enabled = _armed = true;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        Debug.Log("Torpedo collision");
         Destroy(GetComponent<Collider2D>());
+        rigidbody2D.velocity = new Vector2(0f, 0f);
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(this.gameObject, 3f);
     }
 }

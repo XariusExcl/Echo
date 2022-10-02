@@ -24,6 +24,7 @@ public class BasicEnemy : RadarEnemy
         _nextPosGo = Instantiate(nextPosGo, nextPosition, Quaternion.identity);
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         CalculateNextPosition();
+        _nextPosGo.transform.position = new Vector3(-12f, -12f, 0f); // Hide next pos marker until first reveal
     }
 
     new void Update()
