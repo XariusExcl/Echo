@@ -8,15 +8,18 @@ public class GameManager : MonoBehaviour
 {
     public UIDriver uiDriver;
     public ViewFinderSwiper viewFinderSwiper;
-    public GameObject playerActions;
+    public PlayerActions playerActions;
     public EnemySpawner enemySpawner;
     RadarEnemy[] radarEnemies;
     CameraController cameraController;
+    PlayerController player;
 
     [Header("DEBUG ZONE")]
     public float timeScale = 1f;
     public float loopTime = 10f;
     public float startTimerAt = 7f;
+
+    List<EnemyTorpedoController> _etcList;
 
     void Start()
     {
@@ -25,6 +28,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = timeScale;
         _loopTimeElapsed = startTimerAt;
         cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        _etcList = new List<EnemyTorpedoController>();
     }
 
     float _timeElapsed;
@@ -60,13 +65,28 @@ public class GameManager : MonoBehaviour
             viewFinderSwiper.Swipe();
             _loopTimeElapsed = 0f;
             
-            playerActions.GetComponent<PlayerActions>().EnableInteractivity();
+            playerActions.EnableInteractivity();
     
             Debug.Log($"Swipe, current odds: {_spawnOdds}");
         }
 
-
         UpdateUI();
+    }
+
+    public void WarnCritical(EnemyTorpedoController etc)
+    {
+        if (!_etcList.Contains(etc))
+            _etcList.Add(etc);
+
+    }
+
+    public void RemoveWarnCritical(EnemyTorpedoController etc)
+    {
+        _etcList.Remove(etc);
+        if (_etcList.Count == 0)
+        {
+            uiDriver.TurnAlarmOff();
+        }
     }
 
     public void EnemyKilled()
@@ -83,5 +103,35 @@ public class GameManager : MonoBehaviour
     void UpdateUI()
     {
         uiDriver.TimeTillNextScan = loopTime - _loopTimeElapsed;
+
+        Vector2 playerPos = player.transform.position;
+        bool _keepAlarmOn = false;      
+        // Check if alarm should be turned on or off.
+        foreach(EnemyTorpedoController etc in _etcList)
+        {
+            if(!uiDriver.IsAlarmOn && Vector2.SqrMagnitude((Vector2)etc.transform.position - playerPos) < 2f)
+            {
+                uiDriver.TurnAlarmOn();
+                _keepAlarmOn = true;
+                break;
+            }
+
+            if(uiDriver.IsAlarmOn && Vector2.SqrMagnitude((Vector2)etc.transform.position - playerPos) < 2f)
+            {
+                _keepAlarmOn = true;
+                break;
+            }
+        }
+
+        List<EnemyTorpedoController> etcTooFar = _etcList.FindAll(etc => Vector2.SqrMagnitude((Vector2)etc.transform.position - playerPos) > 4f);
+        foreach (EnemyTorpedoController etc in  etcTooFar)
+        {
+            RemoveWarnCritical(etc);
+        }
+
+        if (uiDriver.IsAlarmOn && !_keepAlarmOn)
+        {
+            uiDriver.TurnAlarmOff();
+        }
     }
 }

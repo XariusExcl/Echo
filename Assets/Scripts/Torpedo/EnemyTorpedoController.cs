@@ -6,13 +6,13 @@ public class EnemyTorpedoController : RadarEnemy
 {
     public GameObject radarBlip;
     PlayerController player;
-    GameManager gameManager;
+    GameManager _gameManager;
 
     new void Start()
     {
         base.Start();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        _gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
 
         // AlreadyRevealed = true;
     }
@@ -36,10 +36,10 @@ public class EnemyTorpedoController : RadarEnemy
         {
             if (Time.realtimeSinceStartup - _lastCriticalBlipTime > (Mathf.Clamp(_sqDistanceToPlayer/2f, 1f, 2f)))
             {
+                _gameManager.WarnCritical(this);
                 RevealItselfCritical();
                 _lastCriticalBlipTime = Time.realtimeSinceStartup;
             }
-
         }
     }
     
@@ -52,7 +52,6 @@ public class EnemyTorpedoController : RadarEnemy
 
     void RevealItselfCritical()
     {
-
         base.RevealItself();
         GameObject newRadarBlip = Instantiate(radarBlip, transform.position, transform.rotation);
         RadarBlipBehaviour rbb = newRadarBlip.GetComponent<RadarBlipBehaviour>();

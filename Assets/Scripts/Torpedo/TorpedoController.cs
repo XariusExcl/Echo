@@ -23,7 +23,6 @@ public class TorpedoController : MonoBehaviour
     {
         if(!_armed && Time.realtimeSinceStartup - _spawnTime > 0.1f) // FIXME 
         {
-            Debug.Log("Torpedo armed.");
             collider2D.enabled = _armed = true;
         }
     }

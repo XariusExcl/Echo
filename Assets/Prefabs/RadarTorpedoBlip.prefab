@@ -105,7 +105,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &7290102747174671649
+--- !u!1 &3488302652126992220
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,23 +113,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7570391445396539962}
-  - component: {fileID: 7680125206944979948}
-  - component: {fileID: 1711987413093804707}
+  - component: {fileID: 4344913702041110599}
+  - component: {fileID: 4599895106619546001}
+  - component: {fileID: 4792224103228664030}
+  - component: {fileID: 5469247317057454809}
   m_Layer: 0
-  m_Name: Trajectory
+  m_Name: TorpedoTrajectory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7570391445396539962
+--- !u!4 &4344913702041110599
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290102747174671649}
+  m_GameObject: {fileID: 3488302652126992220}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -138,13 +139,13 @@ Transform:
   m_Father: {fileID: 755674639616092323}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!120 &7680125206944979948
+--- !u!120 &4599895106619546001
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290102747174671649}
+  m_GameObject: {fileID: 3488302652126992220}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -237,14 +238,14 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!95 &1711987413093804707
+--- !u!95 &4792224103228664030
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290102747174671649}
+  m_GameObject: {fileID: 3488302652126992220}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: fbca687d1131da64eb2f9fdb48a714bb, type: 2}
@@ -257,6 +258,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5469247317057454809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488302652126992220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a34d1f90cd9714b9e9d9e1fa719c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trajectory: {fileID: 4599895106619546001}
 --- !u!1 &7534426402540012840
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +346,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 05a8b40af3d817e41ba5e31719f849aa, type: 3}
-  m_Color: {r: 0, g: 0.9270375, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.9254899, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -372,7 +386,6 @@ GameObject:
   m_Component:
   - component: {fileID: 755674639616092323}
   - component: {fileID: 2592807908738903240}
-  - component: {fileID: 5668331446623547918}
   m_Layer: 0
   m_Name: RadarTorpedoBlip
   m_TagString: Untagged
@@ -394,7 +407,7 @@ Transform:
   m_Children:
   - {fileID: 6271513867353840122}
   - {fileID: 823648227688128701}
-  - {fileID: 7570391445396539962}
+  - {fileID: 4344913702041110599}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -412,18 +425,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1503826321871876731}
   color: {r: 0, g: 0.9254902, b: 1, a: 0}
-  IsCritical: 0
---- !u!114 &5668331446623547918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7973716460533322903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4a34d1f90cd9714b9e9d9e1fa719c42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trajectory: {fileID: 7680125206944979948}
-  opacity: 1
+  trajectory: {fileID: 3488302652126992220}
