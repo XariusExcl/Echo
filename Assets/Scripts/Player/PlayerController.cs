@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     public SpriteRenderer zone;
     public LineRenderer line;
+    new Rigidbody2D rigidbody2D;
     float _speed = 0.125f;
     float _turningSpeed = 25f;
     private float _angle;
@@ -19,6 +20,12 @@ public class PlayerController : MonoBehaviour
     public ToggleGroup playerActions;
     bool _isDead;
     public bool IsDead {get => _isDead; private set { _isDead = value;}}
+    public Vector2 Velocity {get => rigidbody2D.velocity;}
+
+    void Start()
+    {
+        rigidbody2D = GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
@@ -65,12 +72,14 @@ public class PlayerController : MonoBehaviour
         if (distanceToNextPosition > 0.1f)
         {
             float _angleToTarget = Vector2.SignedAngle(transform.right, _nextPosition - (Vector2)transform.position);
+
             transform.rotation = Quaternion.Euler(
                 0f, 
                 0f,
                 transform.rotation.eulerAngles.z + Mathf.Sign(_angleToTarget) * _turningSpeed * Time.deltaTime
             );
-            transform.position += _speed * (Mathf.Clamp(-0.015f * Mathf.Abs(_angleToTarget) + 1.38f, 0f, 1f)) * transform.right * Time.deltaTime;;
+
+            rigidbody2D.velocity = _speed * (Mathf.Clamp(-0.015f * Mathf.Abs(_angleToTarget) + 1.38f, 0f, 1f)) * transform.right;
         }
         
         // If pointer is outside zone - shoot torpedo
