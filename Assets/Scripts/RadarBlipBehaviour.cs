@@ -6,14 +6,15 @@ public class RadarBlipBehaviour : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public Color color;
+    public bool IsCritical = false;
  
     float _spawnTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<SpriteRenderer>();
         _spawnTime = Time.realtimeSinceStartup;
+        spriteRenderer.color = color;
     }
 
     // Update is called once per frame
