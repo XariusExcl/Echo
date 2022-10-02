@@ -158,7 +158,7 @@ public class BasicEnemy : RadarEnemy
         } while (!ValidateNextPosition(candidate) && iterationCount < 10);
         if (iterationCount == 10)
         {
-            Debug.LogError("BasicEnemy: Iteration Count for TryNextTargetPosition reached 10 without a suitable target position. Seached between " + minAzimuth + " and " + maxAzimuth + ".");
+            Debug.LogWarning("BasicEnemy: Iteration Count for TryNextTargetPosition reached 10 without a suitable target position. Seached between " + minAzimuth + " and " + maxAzimuth + ".");
             if (!(-minAzimuth == maxAzimuth && maxAzimuth == 180f))
                 candidate = TryNextTargetPosition(Mathf.Clamp(minAzimuth - 30f, -180f, 180f), Mathf.Clamp(maxAzimuth + 30f, -180f, 180f));
             else

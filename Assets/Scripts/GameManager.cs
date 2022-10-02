@@ -11,26 +11,31 @@ public class GameManager : MonoBehaviour
     public ToggleGroup playerActions;
     RadarEnemy[] radarEnemies;
 
+    [Header("DEBUG ZONE")]
+    public float timeScale = 1f;
+    public float loopTime = 10f;
+    public float startTimerAt = 7f;
+
     void Start()
     {
         Application.targetFrameRate = 60;
         radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
-        Time.timeScale = 1f;
+        Time.timeScale = timeScale;
+        _loopTimeElapsed = startTimerAt;
     }
 
-    float _TimeElapsed;
-    float _loopTimeElapsed = 7f;
+    float _timeElapsed;
+    float _loopTimeElapsed;
     void Update()
     {
-        _TimeElapsed += Time.deltaTime;
+        _timeElapsed += Time.deltaTime;
         _loopTimeElapsed += Time.deltaTime;
-        if (_loopTimeElapsed > 10)
+        if (_loopTimeElapsed > loopTime)
         {
             // Reset AlreadyRevealed de tt le monde
             radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
             foreach(RadarEnemy radarEnemy in radarEnemies)
             {
-                
                 radarEnemy.AlreadyRevealed = false;
             }
 
@@ -48,6 +53,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateUI()
     {
-        uiDriver.TimeTillNextScan = 10 - _loopTimeElapsed;
+        uiDriver.TimeTillNextScan = loopTime - _loopTimeElapsed;
     }
 }
