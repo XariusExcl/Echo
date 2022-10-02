@@ -105,7 +105,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &7445982659589547415
+--- !u!1 &7290102747174671649
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,38 +113,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8258098118696798871}
-  - component: {fileID: 5324986161303188341}
-  - component: {fileID: 5488845729068621236}
+  - component: {fileID: 7570391445396539962}
+  - component: {fileID: 7680125206944979948}
+  - component: {fileID: 1711987413093804707}
   m_Layer: 0
-  m_Name: TorpedoTrajectory
+  m_Name: Trajectory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8258098118696798871
+--- !u!4 &7570391445396539962
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445982659589547415}
+  m_GameObject: {fileID: 7290102747174671649}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.010000015, y: -0.22042085, z: -0.0059044356}
-  m_LocalScale: {x: 1.7241378, y: 1.7241378, z: 1.7241378}
+  m_LocalPosition: {x: 39.3, y: -0.37, z: 0}
+  m_LocalScale: {x: 78.33, y: -0.14, z: 1.63}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 755674639616092323}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!120 &5324986161303188341
+--- !u!120 &7680125206944979948
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445982659589547415}
+  m_GameObject: {fileID: 7290102747174671649}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -157,7 +157,8 @@ LineRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 2100000, guid: 8957cf8dd5765c84990e68b2fbc9f52b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180,7 +181,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 36.55, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -188,8 +189,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.007167816
-        value: 0.1333332
+        time: 0
+        value: 0.069171906
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -201,8 +202,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.4651866, b: 1, a: 1}
-      key1: {r: 0, g: 0.4666667, b: 1, a: 1}
+      key0: {r: 0, g: 0.47820997, b: 1, a: 1}
+      key1: {r: 0, g: 0.4784314, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -210,7 +211,7 @@ LineRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65342
+      ctime1: 65535
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -236,17 +237,17 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!95 &5488845729068621236
+--- !u!95 &1711987413093804707
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445982659589547415}
+  m_GameObject: {fileID: 7290102747174671649}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0571a2ca52b189d49964313078dcd06b, type: 2}
+  m_Controller: {fileID: 9100000, guid: fbca687d1131da64eb2f9fdb48a714bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -287,7 +288,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 755674639616092323}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &7702984086619190983
 SpriteRenderer:
@@ -371,7 +372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 755674639616092323}
   - component: {fileID: 2592807908738903240}
-  - component: {fileID: 4436230797872721327}
+  - component: {fileID: 5668331446623547918}
   m_Layer: 0
   m_Name: RadarTorpedoBlip
   m_TagString: Untagged
@@ -387,13 +388,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7973716460533322903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.05, y: 2.3, z: 0}
+  m_LocalPosition: {x: 0.67, y: 1.15, z: 0}
   m_LocalScale: {x: 0.58, y: 0.58, z: 0.58}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6271513867353840122}
-  - {fileID: 8258098118696798871}
   - {fileID: 823648227688128701}
+  - {fileID: 7570391445396539962}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -411,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1503826321871876731}
   color: {r: 1, g: 1, b: 1, a: 0}
---- !u!114 &4436230797872721327
+--- !u!114 &5668331446623547918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -423,4 +424,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4a34d1f90cd9714b9e9d9e1fa719c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trajectory: {fileID: 5324986161303188341}
+  trajectory: {fileID: 7680125206944979948}
+  opacity: 1

@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public TorpedoLauncher torpedoLauncher;
     public ToggleGroup playerActions;
     bool _isDead;
+    public bool isMuted;
     public bool IsDead {get => _isDead; private set { _isDead = value;}}
 
     void Update()
@@ -26,7 +27,7 @@ public class PlayerController : MonoBehaviour
         Vector2 _zoneCenter = this.transform.position;
 
         // Line between submarine and pointer
-        
+
         float distance = Vector2.Distance(_mousePos, _zoneCenter);
         line.SetPosition(0, _zoneCenter);
         if (distance > zone.transform.localScale.x)
@@ -49,14 +50,22 @@ public class PlayerController : MonoBehaviour
             line.SetPosition(1, _mousePos);
         }
 
-        
+
         // If pointer is inside zone - rotate submarine to pointer and move
-        
-        if (getActiveToggle() == "Move" && distance <= zone.transform.localScale.x && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
+
+        if (getActiveToggle() == "Move" && distance <= zone.transform.localScale.x && Input.GetButtonDown("Fire1") &&
+            !EventSystem.current.IsPointerOverGameObject())
         {
             _nextPosition = _mousePos;
             playerActions.gameObject.SetActive(false);
         }
+
+        if (getActiveToggle() == "Mute")
+        {
+            isMuted = true;
+            playerActions.gameObject.SetActive(false);
+        }
+
         // move submarine to pointer
         
         float distanceToNextPosition =
