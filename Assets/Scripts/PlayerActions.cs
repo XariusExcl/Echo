@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerActions : MonoBehaviour
 {
     public Toggle[] playerAction;
+    public PlayerController player;
     public AudioSource clickSfx;
     public bool isDisabled;
 
@@ -37,6 +38,7 @@ public class PlayerActions : MonoBehaviour
                 toggle.isOn = true;
             }
         }
+        DisableInteractivity();
     }
 
     private void Update()

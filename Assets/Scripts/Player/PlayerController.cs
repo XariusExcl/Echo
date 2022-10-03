@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public ToggleGroup playerActions;
     public AudioSource moveSfx;
     public AudioSource shootSfx;
+    public AudioSource counterMeasureSfx;
+    public AudioSource explosionSfx;
 
 
     [Header("DEBUG ZONE")]
@@ -28,7 +30,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 Velocity {get => rigidbody2D.velocity;}
     bool _isDead;
     public bool IsDead {get => _isDead; private set { _isDead = value;}}
-    bool _isMuted;
     bool _isCountermeasureReady;
     public bool IsCountermeasureReady { get => _isCountermeasureReady; }
     public float CountermeasureProgress;
@@ -101,11 +102,11 @@ public class PlayerController : MonoBehaviour
                 playerActions.GetComponent<PlayerActions>().DisableInteractivity();
             }
 
-            if (getActiveToggle() == "Mute")
+            if (getActiveToggle() == "Counter" && _isCountermeasureReady)
             {
-                _isMuted = true;
+                counterMeasureSfx.Play();
+                StartCoroutine(DeployCountermeasure());
                 playerActions.GetComponent<PlayerActions>().DisableInteractivity();
-                playerActions.GetComponent<PlayerActions>().ResetDefault();
             }
 
             // Move submarine to next position
@@ -169,6 +170,7 @@ public class PlayerController : MonoBehaviour
     {
         if (col.gameObject.tag == "EnemyTorpedo")
         {
+            explosionSfx.Play();
             Debug.Log("Player ouchie");
             Destroy(GetComponent<Collider2D>());
             Destroy(sprite);

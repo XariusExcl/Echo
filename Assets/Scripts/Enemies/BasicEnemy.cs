@@ -17,6 +17,7 @@ public class BasicEnemy : RadarEnemy
     public float _turningSpeed = 25f;
     public float _seekChance = 1f;
     bool _isDead = false;
+    public AudioSource explosionSfx;
 
     GameManager _gameManager;
 
@@ -236,6 +237,7 @@ public class BasicEnemy : RadarEnemy
     {
         if (col.gameObject.tag == "FriendlyTorpedo")
         {
+            explosionSfx.Play();
             Debug.Log("Basic Enemy ouchie");
             foreach(Collider2D selfCol in GetComponents<Collider2D>())
             {
