@@ -44,16 +44,15 @@ public class GameManager : MonoBehaviour
             radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
             
             // Calculate odds to spawn a new enemy 
-            if (radarEnemies.Length == 0)
+            if (radarEnemies.Length < _timeElapsed / 40f )
                 _spawnOdds = 1.0f;
-            else 
-                _spawnOdds = 0.3f + (_timeElapsed / 220f); // at 2:30 of playtime, spawn odds are 100%.
+            else if (radarEnemies.Length > 1 + _timeElapsed / 40f )
+                _spawnOdds = 0f;
+            else
+                _spawnOdds = 0.5f;
 
-            // Spawn (if odds >100%, spawns an enemy and roll odds on remaining %).
+            // Spawn
             for(int i = 0; i < Mathf.FloorToInt(_spawnOdds); i++)
-                enemySpawner.SpawnEnemy();
-
-            if (Random.value < _spawnOdds % 1)
                 enemySpawner.SpawnEnemy();
 
             // Reset AlreadyRevealed for next swipe
