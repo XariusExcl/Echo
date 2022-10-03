@@ -78,7 +78,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.025
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -181,7 +181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trajectory: {fileID: 5547441511026029664}
-  opacity: 1
 --- !u!114 &6029896690101181966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.3125
-  explosion: {fileID: 7723270520734603984, guid: 05fea1cc979670146a4b186887f41bb6, type: 3}
+  explosion: {fileID: 7723270520734603984, guid: 1595d1ebbe0465148ad679cbadf53876, type: 3}
 --- !u!61 &3918103657301600075
 BoxCollider2D:
   m_ObjectHideFlags: 0

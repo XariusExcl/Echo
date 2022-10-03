@@ -6,9 +6,9 @@ public class BasicEnemy : RadarEnemy
 {
     public GameObject radarBlip;
     public GameObject nextPosGo;
-    public Collider2D fovTrigger;
     public TorpedoLauncher torpedoLauncher;
     GameObject _nextPosGo;
+    RadarBlipBehaviour _currentBlip;
     PlayerController player;
     float _lastPlayerSeenTime;
     float _lastTorpedoSentTime;
@@ -39,7 +39,10 @@ public class BasicEnemy : RadarEnemy
             // If swiper has passed enemy ship
             if (viewFinderSwiper.Rotation > vfAngle)
             {
-                RevealItself();
+                if (Vector2.SqrMagnitude((Vector2)transform.position - new Vector2(0f, 0.5f)) < 16f)
+                    RevealItself();
+
+                AlreadyRevealed = true;
                 CalculateNextPosition();
             }
         }
@@ -157,6 +160,8 @@ public class BasicEnemy : RadarEnemy
 
         // Show expected pos at next scan
         _nextPosGo.transform.position = nextPosition; // + random ?
+        if (_currentBlip is not null)
+            _currentBlip.SetLinePositions(transform.position, nextPosition);
     }
 
     Vector2 TryNextTargetPosition(float minAzimuth, float maxAzimuth)
@@ -198,7 +203,9 @@ public class BasicEnemy : RadarEnemy
         if (!_isDead)
         {
             base.RevealItself();
-            Instantiate(radarBlip, transform.position, transform.rotation);
+            GameObject newBlip = Instantiate(radarBlip, transform.position, transform.rotation);
+            _currentBlip = newBlip.GetComponent<RadarBlipBehaviour>();
+
             // Debug.Log("Ship found at " + vfAngle);
             lastRevealTime = Time.realtimeSinceStartup;
             // Sound Effect

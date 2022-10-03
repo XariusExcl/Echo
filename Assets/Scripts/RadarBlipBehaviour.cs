@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class RadarBlipBehaviour : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
+    public Light2D radarSprite;
+    public Light2D radarWave;
     public Color color;
-    public GameObject trajectory;
+    public LineRenderer trajectory;
     bool _isCritical;
     public bool IsCritical {get => _isCritical; set{ _isCritical = value;}}
     float _lifespan;
@@ -17,9 +19,15 @@ public class RadarBlipBehaviour : MonoBehaviour
     void Start()
     {
         _spawnTime = Time.realtimeSinceStartup;
-        spriteRenderer.color = color;
+        radarSprite.color = color;
+        radarWave.color = color;
         if (_isCritical)
-            trajectory.SetActive(false);
+            trajectory.gameObject.SetActive(false);
+    }
+
+    public void SetLinePositions(Vector3 start, Vector3 end)
+    {
+        trajectory.SetPositions(new Vector3[]{start, end});
     }
 
     // Update is called once per frame

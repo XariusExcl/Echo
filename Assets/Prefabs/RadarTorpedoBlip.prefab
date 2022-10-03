@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14eadb500eb054468d6f0fccc601d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 1503826321871876731}
+  radarSprite: {fileID: 0}
+  radarWave: {fileID: 0}
   color: {r: 0, g: 0.9254902, b: 1, a: 0}
-  trajectory: {fileID: 3488302652126992220}
+  trajectory: {fileID: 4599895106619546001}

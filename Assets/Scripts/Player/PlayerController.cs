@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     public SpriteRenderer zone;
     public LineRenderer line;
+    public GameObject explosion;
     new Rigidbody2D rigidbody2D;
     float _speed = 0.125f;
     float _turningSpeed = 25f;
