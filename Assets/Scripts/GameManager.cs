@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +12,10 @@ public class GameManager : MonoBehaviour
     RadarEnemy[] radarEnemies;
     CameraController cameraController;
     PlayerController player;
+    public Light2D globalLight;
+    [Header("Ambient Colors")]
+    public Color normalColor = new Color(0.85f, 0.86f, 0.89f);
+    public Color alarmColor = new Color(0.88f, 0.64f, 0.63f);
 
     [Header("DEBUG ZONE")]
     public float timeScale = 1f;
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
         cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         _etcList = new List<EnemyTorpedoController>();
+        globalLight.color = new Color(0.85f, 0.86f, 0.89f);
     }
 
     float _timeElapsed;
@@ -111,6 +115,7 @@ public class GameManager : MonoBehaviour
             if(!uiDriver.IsAlarmOn && Vector2.SqrMagnitude((Vector2)etc.transform.position - playerPos) < 2f)
             {
                 uiDriver.TurnAlarmOn();
+                globalLight.color = alarmColor;
                 _keepAlarmOn = true;
                 break;
             }
@@ -131,6 +136,7 @@ public class GameManager : MonoBehaviour
         if (uiDriver.IsAlarmOn && !_keepAlarmOn)
         {
             uiDriver.TurnAlarmOff();
+            globalLight.color = normalColor;
         }
     }
 }
