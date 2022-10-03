@@ -10,6 +10,6 @@ public class TorpedoTrajectory : MonoBehaviour
     void Update()
     {
         trajectory.SetPosition(0, transform.position);
-        trajectory.SetPosition(1, transform.position + transform.right * 10f);
+        trajectory.SetPosition(1, transform.position + transform.right * 8f);
     }
 }
