@@ -178,11 +178,11 @@ MonoBehaviour:
     m_StyleName: Nominal
     m_PointSize: 56
     m_Scale: 1
-    m_LineHeight: 56
-    m_AscentLine: 56
+    m_LineHeight: 56.22
+    m_AscentLine: 57.4
     m_CapLine: 47
     m_MeanLine: 47
-    m_Baseline: 0
+    m_Baseline: 2.7
     m_DescentLine: 0
     m_SuperscriptOffset: 56
     m_SuperscriptSize: 0.5
