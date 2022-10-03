@@ -69,16 +69,21 @@ public class BasicEnemy : RadarEnemy
             // Fire a torpedo every 10s when chasing
             if (Time.realtimeSinceStartup - _lastTorpedoSentTime > 10f)
             {
-                // Anticipate position
-                float _timeToHit = (player.transform.position - transform.position).magnitude / 0.3125f; // Speed of a torpedo / second
+                if (!player.IsDead)
+                {
+                    // Anticipate position
+                    float _timeToHit = (player.transform.position - transform.position).magnitude / 0.3125f; // Speed of a torpedo / second
 
-                torpedoLauncher.Fire(
-                    Vector2.SignedAngle(
-                        Vector2.right,
-                        player.transform.position - transform.position + (Vector3)(player.Velocity * _timeToHit)
-                    )
-                );
-                _lastTorpedoSentTime = Time.realtimeSinceStartup;
+                    torpedoLauncher.Fire(
+                        Vector2.SignedAngle(
+                            Vector2.right,
+                            player.transform.position - transform.position + (Vector3)(player.Velocity * _timeToHit)
+                        )
+                    );
+                    _lastTorpedoSentTime = Time.realtimeSinceStartup;
+                } else {
+                    _aiMode = AiMode.Seek;
+                }
             }
             
             // Lose the player after 20s not seen

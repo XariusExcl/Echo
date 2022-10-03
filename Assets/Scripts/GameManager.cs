@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
             // Calculate odds to spawn a new enemy 
             if (radarEnemies.Length < _timeElapsed / 40f )
                 _spawnOdds = 1.0f;
-            else if (radarEnemies.Length > 1 + _timeElapsed / 40f )
+            else if (radarEnemies.Length > Mathf.Max(1 + _timeElapsed / 40f, 3.99f)) // Max 4 Enemies on screen.
                 _spawnOdds = 0f;
             else
                 _spawnOdds = 0.5f;
