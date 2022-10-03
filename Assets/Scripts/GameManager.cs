@@ -112,6 +112,9 @@ public class GameManager : MonoBehaviour
         // Check if alarm should be turned on or off.
         foreach(EnemyTorpedoController etc in _etcList)
         {
+            if (etc == null)
+                break;
+
             if(!uiDriver.IsAlarmOn && Vector2.SqrMagnitude((Vector2)etc.transform.position - playerPos) < 2f)
             {
                 uiDriver.TurnAlarmOn();
@@ -127,11 +130,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        List<EnemyTorpedoController> etcTooFar = _etcList.FindAll(etc => Vector2.SqrMagnitude((Vector2)etc.transform.position - playerPos) > 4f);
-        foreach (EnemyTorpedoController etc in  etcTooFar)
-        {
-            RemoveWarnCritical(etc);
-        }
+        // Remove orphans 
+        _etcList.FindAll(etc => etc == null).ForEach(etc => RemoveWarnCritical(etc));
+        
+        // Remove if too far
+        _etcList.FindAll(etc => Vector2.SqrMagnitude((Vector2)etc.transform.position - playerPos) > 4f).ForEach(etc => RemoveWarnCritical(etc));
 
         if (uiDriver.IsAlarmOn && !_keepAlarmOn)
         {
