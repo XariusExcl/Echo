@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public TorpedoLauncher torpedoLauncher;
     public ToggleGroup playerActions;
     public AudioSource moveSfx;
+    public AudioSource shootSfx;
+
 
     [Header("DEBUG ZONE")]
     public float _speed = 0.125f;
@@ -128,6 +130,7 @@ public class PlayerController : MonoBehaviour
             // If pointer is outside zone - shoot torpedo
             if (getActiveToggle() == "Shoot"  && Input.GetButtonDown("Fire1") && !EventSystem.current.IsPointerOverGameObject())
             {
+                shootSfx.Play();
                 torpedoLauncher.Fire(Vector2.SignedAngle(Vector2.right, _mousePos - (Vector2)transform.position));
                 playerActions.GetComponent<PlayerActions>().DisableInteractivity();
             }
