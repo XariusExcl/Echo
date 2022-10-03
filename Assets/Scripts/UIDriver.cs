@@ -16,11 +16,16 @@ public class UIDriver : MonoBehaviour
     public GameObject redOverlay;
     public GameObject retryPrompt;
 
+
+    float _speedGaugeAngle;
+    float _targetSpeedGaugeAngle;
     void Update()
     {
         timeTillNextScanNumberText.text = _timeTillNextScan.ToString("0.00");
-        // assing rotation to arrow depending on the velocity
-        speedArrow.transform.rotation = Quaternion.Euler(0, 0, PlayerController.Velocity.magnitude * 500);
+        
+        _targetSpeedGaugeAngle = PlayerController.Velocity.magnitude * 500;
+        _speedGaugeAngle += (_targetSpeedGaugeAngle - _speedGaugeAngle) / 100f;
+        speedArrow.transform.rotation = Quaternion.Euler(0, 0, _speedGaugeAngle);
     }
 
     public void TurnAlarmOn()

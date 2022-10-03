@@ -24,9 +24,9 @@ public class ObstacleSpawnerBehaviour : MonoBehaviour
             Vector2 spawnPoint;
             int iterationCounter = 0;
             do {
-                spawnPoint = (Vector2)transform.position + Random.insideUnitCircle.normalized * 2f + new Vector2(Random.Range(-0.7f, 0.7f),Random.Range(-0.7f, 0.7f));
+                spawnPoint = (Vector2)transform.position + Random.insideUnitCircle.normalized * 2.5f + new Vector2(Random.Range(-0.7f, 0.7f),Random.Range(-0.7f, 0.7f));
                 iterationCounter++;
-            } while (_spawnPoints.FindAll(sp => Vector2.SqrMagnitude(spawnPoint - sp) < 8f).Count > 0 && iterationCounter < 20);
+            } while (_spawnPoints.FindAll(sp => Vector2.SqrMagnitude(spawnPoint - sp) < 4f).Count > 0 && iterationCounter < 20);
             if (iterationCounter == 20)
                 Debug.LogWarning("Could not find a suitable position in 20 iterations.");
 
