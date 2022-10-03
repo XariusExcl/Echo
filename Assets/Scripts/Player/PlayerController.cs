@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject sprite;
     public GameObject explosion;
     new Rigidbody2D rigidbody2D;
-    public Collider2D counterMeasure;
+    public GameObject counterMeasure;
     public TorpedoLauncher torpedoLauncher;
     public ToggleGroup playerActions;
     public AudioSource moveSfx;
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
             // Countermeasure OGCD
             if(!_isCountermeasureReady)
             {
-                if (!counterMeasure.enabled)
+                if (!counterMeasure.activeSelf)
                 {
                     CountermeasureProgress += Time.deltaTime / 24f;
                     if (CountermeasureProgress > 1f)
@@ -151,9 +151,9 @@ public class PlayerController : MonoBehaviour
     {
         _timeSinceLastCounterMeasure = Time.realtimeSinceStartup;
         _isCountermeasureReady = false;
-        counterMeasure.enabled = true;
+        counterMeasure.SetActive(true);
         yield return new WaitForSecondsRealtime(4f);
-        counterMeasure.enabled = false;
+        counterMeasure.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D col)
