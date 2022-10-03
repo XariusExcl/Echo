@@ -15,10 +15,12 @@ public class PostProcessingInterface : MonoBehaviour
     }     
 
     void Update()
-    {    
+    {   
+        /*
         if(!volumeProfile.TryGet(out vignette)) throw new System.NullReferenceException(nameof(vignette));
         
         vignette.intensity.Override(0.5f);
+        */
     } 
 
 }

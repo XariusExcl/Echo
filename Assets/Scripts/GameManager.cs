@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,11 @@ public class GameManager : MonoBehaviour
     public float loopTime = 10f;
     public float startTimerAt = 7f;
 
+    int _enemiesKilled;
+    float _timeElapsed;
+    float _loopTimeElapsed;
+    float _spawnOdds;
+    bool _isGameOver = false;
     List<EnemyTorpedoController> _etcList;
 
     void Start()
@@ -36,44 +42,46 @@ public class GameManager : MonoBehaviour
         globalLight.color = new Color(0.85f, 0.86f, 0.89f);
     }
 
-    float _timeElapsed;
-    float _loopTimeElapsed;
-    float _spawnOdds;
+
     void Update()
     {
-        _timeElapsed += Time.deltaTime;
-        _loopTimeElapsed += Time.deltaTime;
-        if (_loopTimeElapsed > loopTime)
+        if (!_isGameOver)
         {
-            radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
-            
-            // Calculate odds to spawn a new enemy 
-            if (radarEnemies.Length < _timeElapsed / 40f )
-                _spawnOdds = 1.0f;
-            else if (radarEnemies.Length > Mathf.Max(1 + _timeElapsed / 40f, 3.99f)) // Max 4 Enemies on screen.
-                _spawnOdds = 0f;
-            else
-                _spawnOdds = 0.5f;
-
-            // Spawn
-            for(int i = 0; i < Mathf.FloorToInt(_spawnOdds); i++)
-                enemySpawner.SpawnEnemy();
-
-            // Reset AlreadyRevealed for next swipe
-            foreach(RadarEnemy radarEnemy in radarEnemies)
+            _timeElapsed += Time.deltaTime;
+            _loopTimeElapsed += Time.deltaTime;
+            if (_loopTimeElapsed > loopTime)
             {
-                radarEnemy.AlreadyRevealed = false;
+                radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
+                
+                // Calculate odds to spawn a new enemy 
+                if (radarEnemies.Length < _timeElapsed / 40f )
+                    _spawnOdds = 1.0f;
+                else if (radarEnemies.Length > Mathf.Max(1 + _timeElapsed / 40f, 3.99f)) // Max 4 Enemies on screen.
+                    _spawnOdds = 0f;
+                else
+                    _spawnOdds = 0.5f;
+
+                // Spawn
+                for(int i = 0; i < Mathf.FloorToInt(_spawnOdds); i++)
+                    enemySpawner.SpawnEnemy();
+
+                // Reset AlreadyRevealed for next swipe
+                foreach(RadarEnemy radarEnemy in radarEnemies)
+                {
+                    radarEnemy.AlreadyRevealed = false;
+                }
+
+                viewFinderSwiper.Swipe();
+                _loopTimeElapsed = 0f;
+                
+                playerActions.EnableInteractivity();
+        
+                Debug.Log($"Swipe, current odds: {_spawnOdds}");
             }
 
-            viewFinderSwiper.Swipe();
-            _loopTimeElapsed = 0f;
-            
-            playerActions.EnableInteractivity();
-    
-            Debug.Log($"Swipe, current odds: {_spawnOdds}");
+            UpdateUI();
         }
 
-        UpdateUI();
     }
 
     public void WarnCritical(EnemyTorpedoController etc)
@@ -95,12 +103,27 @@ public class GameManager : MonoBehaviour
     public void EnemyKilled()
     {
         Debug.Log("Enemy Killed!");
+        _enemiesKilled++;
     }
 
     public void GameOver()
     {
         StartCoroutine(cameraController.CameraShake(0.5f));
         Debug.Log("GameManager: Game over");
+        _isGameOver = true;
+        uiDriver.TurnAlarmSoundOff();
+
+        StartCoroutine(ShowRetryPromptDelayed());
+
+        // Show enemies in clear ?
+    }
+
+    public IEnumerator ShowRetryPromptDelayed()
+    {
+        // Format Time
+        TimeSpan time = TimeSpan.FromSeconds(_timeElapsed);
+        yield return new WaitForSeconds(0.7f);
+        uiDriver.ShowRetryPrompt($"Enemies Killed:\n{_enemiesKilled} \nTime survived: \n{time.ToString(@"mm\:ss\.ff")}");
     }
 
     void UpdateUI()

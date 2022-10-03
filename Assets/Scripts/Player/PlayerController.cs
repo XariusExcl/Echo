@@ -169,14 +169,11 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player ouchie");
             Destroy(GetComponent<Collider2D>());
             Destroy(sprite);
+            Destroy(zone.gameObject);
+            Destroy(line.gameObject);
             _isDead = true;
             rigidbody2D.velocity = new Vector2(0f, 0f);
             _gameManager.GameOver();
         }
-    }
-
-    public void Die()
-    {
-        Destroy(this.gameObject);
     }
 } 

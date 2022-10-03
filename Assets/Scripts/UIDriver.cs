@@ -14,6 +14,7 @@ public class UIDriver : MonoBehaviour
     public TMP_Text timeTillNextScanNumberText;
     public GameObject speedArrow;
     public GameObject redOverlay;
+    public GameObject retryPrompt;
 
     void Update()
     {
@@ -32,5 +33,17 @@ public class UIDriver : MonoBehaviour
     {
         redOverlay.SetActive(false);
         _isAlarmOn = false;
+    }
+
+    public void TurnAlarmSoundOff()
+    {
+        redOverlay.GetComponent<AudioSource>().loop = false;
+    }
+
+    public void ShowRetryPrompt(string text)
+    {
+        retryPrompt.SetActive(true);
+        TMP_Text retryTMP = retryPrompt.GetComponentInChildren<TMP_Text>();
+        retryTMP.text = text;
     }
 }

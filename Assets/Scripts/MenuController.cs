@@ -12,4 +12,9 @@ public class MenuController : MonoBehaviour
         Debug.Log("Start Game");
         SceneManager.LoadScene("Scenes/Game");
     }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("Scenes/Game");
+    }
 }
