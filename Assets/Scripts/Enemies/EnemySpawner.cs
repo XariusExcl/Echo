@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        Vector2 spawnPoint = Random.insideUnitCircle.normalized * spawnRadius;
+        Vector2 spawnPoint = (Vector2)transform.position + Random.insideUnitCircle.normalized * spawnRadius;
         Instantiate(
             enemies[Random.Range(0, _enemiesLength - 1)],
             spawnPoint,
