@@ -10,6 +10,7 @@ public class TorpedoController : MonoBehaviour
     public GameObject explosion;
     float _spawnTime;
     bool _armed = false;
+    GameManager _gameManager;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class TorpedoController : MonoBehaviour
         collider2D = GetComponent<Collider2D>();
         rigidbody2D.velocity = transform.right * speed;
         _spawnTime = Time.realtimeSinceStartup;
+        _gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     void Update()
@@ -25,15 +27,24 @@ public class TorpedoController : MonoBehaviour
         {
             collider2D.enabled = _armed = true;
         }
+
+        // If torpedo is out of screen
+        if(Vector2.SqrMagnitude(transform.position - new Vector3(0.0f, 0.6f, 0.0f)) > 16f)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         Debug.Log("Torpedo collision");
-        Destroy(GetComponent<Collider2D>());
+        Explosion();
+    }
+
+    public void Explosion()
+    {
         rigidbody2D.velocity = new Vector2(0f, 0f);
         GameObject newExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(newExplosion, 2.9f);
-        Destroy(this.gameObject, 3f);
+        Destroy(this.gameObject);
     }
 }
