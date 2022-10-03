@@ -962,9 +962,9 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.064464144
+    x: 0
     y: 0
-    width: 0.8702659
+    width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 11
@@ -2289,8 +2289,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1048254920}
   - component: {fileID: 1048254919}
+  - component: {fileID: 1048254921}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2326,6 +2327,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1048254921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048254918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c58f6ba6ff03b43b205fd24be2b0af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacles:
+  - {fileID: 6162090419504754314, guid: a3de083a22bbd1d44bb4cf67adb9b51b, type: 3}
+  - {fileID: 8127864171038517514, guid: 6b940eb5795780745b8fa7768471cc01, type: 3}
+  - {fileID: 7267384573655709550, guid: 611dabb848469454abcf5485e17a6151, type: 3}
+  - {fileID: 6097343261857218568, guid: de2df4b3ded196c4ba818840d1e49a74, type: 3}
+  spawnAmount: 3
 --- !u!4 &1053787385 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5737020465290463475, guid: 2a6e216c641ab0e4cbd92ac12e08dc5d, type: 3}
