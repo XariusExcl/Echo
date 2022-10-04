@@ -3511,9 +3511,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2123658943}
   - component: {fileID: 2123658942}
+  - component: {fileID: 2123658944}
   m_Layer: 0
   m_Name: Music
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3629,6 +3630,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2123658944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123658941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7dfc9fff6f5bb4991b1d8b7ecd2fc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tag: Music
 --- !u!1 &2141611240
 GameObject:
   m_ObjectHideFlags: 0
