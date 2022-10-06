@@ -158,7 +158,6 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log($"TriggerEnter {col.gameObject.tag}");
         GameObject colGo = col.gameObject;
         if (colGo.tag == "EnemyTorpedo")
         {

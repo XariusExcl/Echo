@@ -30,9 +30,14 @@ public class GameManager : MonoBehaviour
     bool _isGameOver = false;
     List<EnemyTorpedoController> _etcList;
 
-    void Start()
+    void Awake()
     {
         Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
+    }
+
+    void Start()
+    {
         radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
         Time.timeScale = timeScale;
         _loopTimeElapsed = startTimerAt;
@@ -52,12 +57,13 @@ public class GameManager : MonoBehaviour
             if (_loopTimeElapsed > loopTime)
             {
                 radarEnemies = GameObject.FindObjectsOfType<RadarEnemy>();
+                Debug.Log(radarEnemies.Length);
                 
                 // Calculate odds to spawn a new enemy 
-                if (radarEnemies.Length < _timeElapsed / 40f )
-                    _spawnOdds = 1.0f;
-                else if (radarEnemies.Length > Mathf.Max(1 + _timeElapsed / 40f, 3.99f)) // Max 4 Enemies on screen.
+                if (radarEnemies.Length > Mathf.Min(1 + _timeElapsed / 60f, 3.99f)) // Max 4 Enemies on screen.
                     _spawnOdds = 0f;
+                else if (radarEnemies.Length < _timeElapsed / 60f ) 
+                    _spawnOdds = 1f;
                 else
                     _spawnOdds = 0.5f;
 

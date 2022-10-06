@@ -27,7 +27,6 @@ public class BasicEnemy : RadarEnemy
         _nextPosGo = Instantiate(nextPosGo, nextPosition, Quaternion.identity);
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         _gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-        CalculateNextPosition();
         _nextPosGo.transform.position = new Vector3(-12f, -12f, 0f); // Hide next pos marker until first reveal
     }
 
@@ -67,8 +66,8 @@ public class BasicEnemy : RadarEnemy
 
         if (_aiMode == AiMode.Chase)
         {
-            // Fire a torpedo every 10s when chasing
-            if (Time.realtimeSinceStartup - _lastTorpedoSentTime > 10f)
+            // Fire a torpedo every 15s when chasing, if player has been seen for more than 5 seconds.
+            if (Time.realtimeSinceStartup - _lastTorpedoSentTime > 15f && Time.realtimeSinceStartup - _lastPlayerSeenTime > 5f)
             {
                 if (!player.IsDead)
                 {
@@ -108,16 +107,16 @@ public class BasicEnemy : RadarEnemy
     {
         lastPosition = transform.position;
 
-        Vector3 leftRelative = Quaternion.AngleAxis(35f, Vector3.forward) * transform.right;
-        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, leftRelative, 2f, _wallLayerMask);
-        // Debug.DrawRay(transform.position, leftRelative * 2f, Color.yellow, 10f);
+        Vector3 leftRelative = Quaternion.AngleAxis(40f, Vector3.forward) * transform.right;
+        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, leftRelative, 2.5f, _wallLayerMask);
+        Debug.DrawRay(transform.position, leftRelative * 2f, Color.yellow, 10f);
 
-        RaycastHit2D forwardHit = Physics2D.Raycast(transform.position, transform.right, 2f, _wallLayerMask);
-        // Debug.DrawRay(transform.position, transform.right * 2f, Color.red, 10f);
+        RaycastHit2D forwardHit = Physics2D.Raycast(transform.position, transform.right, 2.5f, _wallLayerMask);
+        Debug.DrawRay(transform.position, transform.right * 2f, Color.red, 10f);
 
-        Vector3 rightRelative = Quaternion.AngleAxis(-35f, Vector3.forward) * transform.right;
-        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, rightRelative, 2f, _wallLayerMask);
-        // Debug.DrawRay(transform.position, rightRelative * 2f, Color.blue, 10f);
+        Vector3 rightRelative = Quaternion.AngleAxis(-40f, Vector3.forward) * transform.right;
+        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, rightRelative, 2.5f, _wallLayerMask);
+        Debug.DrawRay(transform.position, rightRelative * 2f, Color.blue, 10f);
 
         float _playerAngle = Vector2.SignedAngle(transform.right, player.transform.position - transform.position);
 
@@ -136,31 +135,31 @@ public class BasicEnemy : RadarEnemy
                     if (leftHitDistance < rightHitDistance)
                     {
                         // LeftHit is smaller
-                        if (Mathf.Min(forwardHitDistance, leftHitDistance) < 1f)
+                        if (forwardHitDistance < 1f || leftHitDistance < 1f)
                         {
                             // Wall is close, turn right harder
-                            nextPosition = TryNextTargetPosition(-90f + _angleBias, -35f + _angleBias);
+                            nextPosition = TryNextTargetPosition(-60f + _angleBias);
                         } else {
                             // Wall is near, turn right softly
-                            nextPosition = TryNextTargetPosition(-35f + _angleBias, 0f + _angleBias);
+                            nextPosition = TryNextTargetPosition(-25f + _angleBias);
                         }
                     } else {
                         // RightHit is smaller
-                        if (Mathf.Min(forwardHitDistance, rightHitDistance) < 1f)
+                        if (forwardHitDistance < 1f || rightHitDistance < 1f)
                         {
                             // Wall is close, turn left harder
-                            nextPosition = TryNextTargetPosition(-90f + _angleBias, 0f + _angleBias);
+                            nextPosition = TryNextTargetPosition(60f + _angleBias);
                         } else {
                             // Wall is near, turn left softly
-                            nextPosition = TryNextTargetPosition(-35f + _angleBias, 0f + _angleBias);
+                            nextPosition = TryNextTargetPosition(25f + _angleBias);
                         }
                     }
                 } else {
-                    nextPosition = TryNextTargetPosition(-45f + _angleBias, 45f + _angleBias);
+                    nextPosition = TryNextTargetPosition(Random.Range(-35f, 35f) + _angleBias);
                 }
             break;
             case AiMode.Chase:
-                nextPosition = TryNextTargetPosition(-5f + _playerAngle, 5f + _playerAngle);
+                nextPosition = TryNextTargetPosition(Random.Range(-5f, 5f) + _playerAngle);
             break;
         }
 
@@ -170,37 +169,34 @@ public class BasicEnemy : RadarEnemy
             _currentBlip.SetLinePositions(transform.position, nextPosition);
     }
 
-    Vector2 TryNextTargetPosition(float minAzimuth, float maxAzimuth)
+    // Checks if direction at azimuth is not going to hit anything, and if it does, sweeps in 20° intervals to check for a valid azimuth.
+    Vector2 TryNextTargetPosition(float azimuth)
     {
-        Vector3 candidate;
-        int iterationCount = 0;
-        do
+        Vector3 candidate = new Vector3();
+        for (int i = 1; i < 19; i++)
         {
-            candidate = transform.position + Quaternion.AngleAxis(Random.Range(minAzimuth, maxAzimuth), Vector3.forward) * transform.right * (10f * _speed);
-            iterationCount++;
-        } while (!ValidateNextPosition(candidate) && iterationCount < 10);
-        if (iterationCount == 10)
-        {
-            Debug.LogWarning("BasicEnemy: Iteration Count for TryNextTargetPosition reached 10 without a suitable target position. Seached between " + minAzimuth + " and " + maxAzimuth + ".");
-            if (!(-minAzimuth == maxAzimuth && maxAzimuth == 180f))
-                candidate = TryNextTargetPosition(Mathf.Clamp(minAzimuth - 30f, -180f, 180f), Mathf.Clamp(maxAzimuth + 30f, -180f, 180f));
-            else
-                Debug.LogError("BasicEnemy: Something went terribly wrong!");
+            float newAzimuth = (float)((2*(i%2)-1) * (i/2)) * 20f + azimuth;
+            candidate = transform.position + Quaternion.AngleAxis(Random.Range(newAzimuth - 5f, newAzimuth + 5f), Vector3.forward) * transform.right * (10f * _speed);
+            if (ValidateNextPosition(candidate))
+                return candidate;
         }
-
+        Debug.LogError("BasicEnemy: Something went terribly wrong!");
         return candidate;
+        // Todo, store furethest hit and use that?
     }
 
     bool ValidateNextPosition(Vector3 nextPositionCandidate)
     {
         RaycastHit2D _hit = Physics2D.Raycast(
             transform.position,
-            (nextPositionCandidate * 1.1f) - transform.position
+            nextPositionCandidate - transform.position,
+            (10f * _speed),
+            _wallLayerMask
         );
         
-        if (_hit.distance < Vector2.Distance(nextPositionCandidate, transform.position))
+        if (_hit.distance > 0f)
             return false;
-
+            
         return true;
     }
 
