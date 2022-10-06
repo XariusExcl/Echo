@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
         if (_etcList.Count == 0)
         {
             uiDriver.TurnAlarmOff();
+            globalLight.color = normalColor;
         }
     }
 
