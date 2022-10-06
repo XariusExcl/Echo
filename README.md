@@ -22,3 +22,4 @@ Clicking on "Cntr" (Countermeasures) protects your submarine from any torpedoes 
 - Plume: Programming, Graphics, Sound, Music
 
 Made in 72 hours for the Ludum Dare 51 Game Jam (Theme: Every 10 seconds).
+Note : Jam version is at tag "JAM". Main branch is updated with bugfixes and optimisations.
